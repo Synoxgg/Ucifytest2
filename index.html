@@ -4,531 +4,811 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   
-  <title>UCify | Tactical UC Store</title>
+  <title>UCify - Premium BGMI UC Store</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <meta name="theme-color" content="#ccff00">
+  <meta name="title" content="UCify - Premium BGMI UC Store | Fast & Secure UC Delivery">
   
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
-      --primary: #ccff00; /* Volt Green - High Energy */
-      --primary-dim: rgba(204, 255, 0, 0.15);
-      --accent: #00f0ff; /* Cyber Blue */
-      --bg-dark: #050505;
-      --bg-panel: #0f0f11;
+      --primary: #FFB800; /* UC Gold */
+      --primary-dim: #996e00;
+      --accent: #00E0FF; /* Tech Cyan */
+      --bg-dark: #050507;
+      --bg-panel: #121216;
+      --surface: rgba(255, 255, 255, 0.03);
+      --surface-border: rgba(255, 255, 255, 0.08);
       --text-main: #ffffff;
-      --text-muted: #888888;
-      --border: rgba(255, 255, 255, 0.08);
-      --glass: rgba(15, 15, 17, 0.85);
-      --error: #ff2a2a;
-      --success: #00ff88;
-      --font-tech: 'Rajdhani', sans-serif;
-      --font-body: 'Poppins', sans-serif;
+      --text-muted: #8f90a6;
+      --success: #00ff9d;
+      --error: #ff4757;
+      
+      --font-display: 'Rajdhani', sans-serif;
+      --font-body: 'Outfit', sans-serif;
+      
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 8px;
     }
 
+    /* --- BASE RESET & ANIMATION --- */
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+    
     body {
+      font-family: var(--font-body);
       background-color: var(--bg-dark);
       background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      font-family: var(--font-body);
+        radial-gradient(circle at 10% 20%, rgba(255, 184, 0, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 224, 255, 0.03) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       color: var(--text-main);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
       overflow-x: hidden;
+      display: flex;
+      justify-content: center;
     }
 
-    /* --- BACKGROUND ANIMATION --- */
-    .scanline {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3) 51%);
-      background-size: 100% 4px;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.15;
-    }
-
-    .vignette {
-      position: fixed; inset: 0;
-      background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 120%);
-      pointer-events: none; z-index: 0;
-    }
-
-    /* --- LAYOUT --- */
-    .app-container {
-      max-width: 440px;
-      margin: 0 auto;
-      padding: 20px 16px 100px;
-      position: relative;
-      z-index: 10;
+    /* --- LAYOUT CONTAINER --- */
+    .container {
       width: 100%;
+      max-width: 480px;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
     }
 
-    /* --- HEADER HUD --- */
-    .hud-header {
-      display: flex;
-      justify-content: space-between;
+    /* --- HEADER CARD --- */
+    .top-card {
+      background: rgba(18, 18, 22, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 30px 20px;
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    }
+
+    /* Glow effect behind logo */
+    .top-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,184,0,0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .logo-img {
+      max-width: 180px;
+      height: auto;
+      filter: drop-shadow(0 0 15px rgba(255,184,0,0.3));
+    }
+
+    .tagline {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- TRUST BADGES --- */
+    .partner-block { margin-top: 15px; }
+    .partner-badge {
+      display: inline-flex;
       align-items: center;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 16px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand-logo {
-      width: 32px;
-      height: 32px;
-      filter: drop-shadow(0 0 5px var(--primary));
-    }
-    .brand-text {
-      font-family: var(--font-tech);
+      gap: 8px;
+      background: rgba(255, 184, 0, 0.1);
+      border: 1px solid rgba(255, 184, 0, 0.3);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-family: var(--font-display);
       font-weight: 700;
-      font-size: 24px;
-      letter-spacing: 1px;
       text-transform: uppercase;
-      color: #fff;
-    }
-    .brand-text span { color: var(--primary); }
-
-    .live-status {
-      font-family: var(--font-tech);
       font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .trust-strip {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .trust-pill {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--surface);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       gap: 6px;
-      color: var(--success);
-      background: rgba(0, 255, 136, 0.1);
-      padding: 4px 8px;
-      border-radius: 4px;
-      border: 1px solid rgba(0, 255, 136, 0.2);
-    }
-    .status-dot {
-      width: 6px; height: 6px; background: var(--success);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--success);
-      animation: blink 2s infinite;
+      border: 1px solid transparent;
     }
 
-    /* --- PROGRESS TRACKER --- */
-    .mission-tracker {
+    .live-stats {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .stat-badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent);
+    }
+    .stat-number { color: var(--accent); font-weight: 800; font-family: var(--font-display); }
+
+    /* --- PROGRESS BAR --- */
+    .progress-wrap {
+      margin-bottom: 25px;
+      padding: 0 10px;
+    }
+    .progress-container {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 30px;
       position: relative;
     }
-    .mission-tracker::before {
-      content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px;
-      background: var(--border); transform: translateY(-50%); z-index: 0;
+    /* The Line */
+    .progress-container::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--surface-border);
+      transform: translateY(-50%);
+      z-index: 0;
     }
-    .tracker-step {
-      width: 30px; height: 30px;
+
+    .progress-step {
+      width: 32px;
+      height: 32px;
       background: var(--bg-panel);
-      border: 2px solid var(--border);
+      border: 2px solid var(--surface-border);
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-tech);
-      font-size: 14px; font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
       color: var(--text-muted);
-      position: relative; z-index: 1;
-      transition: all 0.4s ease;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
     }
-    .tracker-step.active {
-      border-color: var(--primary);
-      color: var(--bg-dark);
-      background: var(--primary);
-      box-shadow: 0 0 15px var(--primary-dim);
-      transform: scale(1.1);
-    }
-    .tracker-step.completed {
-      background: var(--bg-panel);
+
+    .progress-step.active {
       border-color: var(--primary);
       color: var(--primary);
+      box-shadow: 0 0 15px rgba(255,184,0,0.4);
+      background: var(--bg-dark);
+      transform: scale(1.1);
     }
-    .tracker-line-fill {
-      position: absolute; top: 50%; left: 0; height: 2px;
+
+    .progress-step.completed {
       background: var(--primary);
-      width: 0%; z-index: 0;
-      transition: width 0.4s ease;
-      transform: translateY(-50%);
+      border-color: var(--primary);
+      color: #000;
+    }
+    
+    /* Hide the individual lines from original HTML logic via CSS, we use pseudo element */
+    .progress-line { display: none; } 
+
+    /* --- STEP CONTENT --- */
+    .step { display: none; animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .step.active { display: block; }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* --- CARD CONTAINERS --- */
-    .step { display: none; opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
-    .step.active { display: block; opacity: 1; transform: translateY(0); }
-
-    .tech-card {
-      background: var(--glass);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px 20px;
+    .step-content {
+      background: var(--bg-panel);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-    /* Decorative Corner marks */
-    .tech-card::after {
-      content: ""; position: absolute; top: 0; right: 0;
-      width: 20px; height: 20px;
-      border-top: 2px solid var(--primary);
-      border-right: 2px solid var(--primary);
-      border-top-right-radius: 8px;
     }
 
-    .card-title {
-      font-family: var(--font-tech);
-      font-size: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-      display: flex; align-items: center; gap: 8px;
+    /* Cyber Decor Corner */
+    .step-content::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 40px 40px 0;
+      border-color: transparent rgba(255,184,0,0.1) transparent transparent;
     }
-    .card-title i { color: var(--primary); }
-    .card-subtitle {
-      font-size: 13px; color: var(--text-muted); margin-bottom: 24px;
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      background: linear-gradient(to right, #fff, #aaa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .subnote {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 25px;
     }
 
     /* --- INPUT FIELDS --- */
-    .input-group { margin-bottom: 20px; position: relative; }
-    .input-label {
-      font-size: 12px; font-weight: 600; color: var(--text-muted);
-      margin-bottom: 8px; display: block; text-transform: uppercase;
+    .form-group { margin-bottom: 20px; position: relative; }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
     }
-    .tech-input {
+    
+    .form-input-wrapper { position: relative; }
+    
+    .form-input {
       width: 100%;
       background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--border);
-      padding: 16px;
+      border: 1px solid var(--surface-border);
       color: #fff;
-      font-family: 'Rajdhani', sans-serif;
+      padding: 16px;
+      padding-right: 40px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
       font-size: 18px;
       letter-spacing: 1px;
-      outline: none;
-      transition: all 0.3s;
-      border-radius: 4px;
+      transition: all 0.3s ease;
     }
-    .tech-input:focus {
-      border-color: var(--primary);
-      border-left-color: var(--primary);
-      background: rgba(204, 255, 0, 0.02);
-      box-shadow: 0 0 20px rgba(204, 255, 0, 0.05);
-    }
-    .tech-input.valid { border-color: var(--success); border-left-color: var(--success); }
-    .input-status {
-      position: absolute; right: 16px; top: 42px;
-      font-size: 14px; opacity: 0; transition: 0.3s;
-    }
-    .input-status.active { opacity: 1; }
 
-    /* --- PACK GRIDS --- */
-    .pack-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(255,184,0,0.1);
+      background: rgba(0,0,0,0.5);
     }
-    .pack-item {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
+    
+    .input-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--success);
+      font-size: 18px;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .input-icon.check { opacity: 1; }
+    
+    .error-message {
+      color: var(--error);
+      font-size: 12px;
+      margin-top: 6px;
+      display: none;
+    }
+    .error-message.show { display: block; animation: shake 0.4s ease; }
+
+    /* --- UC PACKS GRID --- */
+    .packs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .pack-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
       padding: 15px;
       text-align: center;
       cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden;
     }
-    .pack-item:hover {
-      background: rgba(255,255,255,0.06);
-      transform: translateY(-2px);
+
+    .pack-card:hover:not(.purchased) {
+      transform: translateY(-3px);
+      border-color: rgba(255,184,0,0.4);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
-    .pack-item.selected {
-      background: rgba(204, 255, 0, 0.08);
-      border-color: var(--primary);
-      box-shadow: 0 0 0 1px var(--primary), inset 0 0 20px rgba(204, 255, 0, 0.1);
+
+    .pack-card.selected {
+      background: rgba(255, 184, 0, 0.1);
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 20px rgba(255,184,0,0.15);
     }
-    .pack-item.purchased {
-      opacity: 0.4; cursor: not-allowed; filter: grayscale(1);
+
+    .pack-uc {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
     }
-    .uc-amt {
-      font-family: var(--font-tech);
-      font-size: 22px; font-weight: 700; color: #fff;
-      display: block; margin-bottom: 4px;
+    
+    .uc-icon { width: 24px; height: 24px; }
+
+    .pack-price {
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
     }
-    .price-tag {
-      font-size: 14px; font-weight: 600; color: var(--primary);
+    .pack-card.selected .pack-price { color: var(--primary); }
+    
+    .check-mark {
+      position: absolute;
+      top: 0; right: 0;
+      background: var(--primary);
+      color: #000;
+      width: 24px; height: 24px;
+      border-bottom-left-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
     }
-    .uc-img { width: 24px; vertical-align: middle; margin-right: 4px; }
+
+    .pack-card.purchased {
+      opacity: 0.5;
+      filter: grayscale(1);
+      pointer-events: none;
+    }
 
     /* --- BUTTONS --- */
-    .btn-container {
-      display: flex; gap: 10px; margin-top: 24px;
-    }
+    .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+    
     .btn {
-      flex: 1;
+      width: 100%;
       padding: 16px;
       border: none;
-      font-family: var(--font-tech);
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
       font-weight: 700;
       font-size: 16px;
       text-transform: uppercase;
-      letter-spacing: 1px;
       cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.2s;
       position: relative;
       overflow: hidden;
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-      transition: all 0.3s;
     }
+
     .btn-primary {
       background: var(--primary);
       color: #000;
+      box-shadow: 0 4px 15px rgba(255,184,0,0.3);
     }
+    
     .btn-primary:hover:not(:disabled) {
-      background: #b3e600;
-      box-shadow: 0 0 20px var(--primary-dim);
+      background: #ffc42e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255,184,0,0.4);
     }
+    
     .btn-primary:disabled {
-      background: #333; color: #666; cursor: not-allowed;
+      background: #333;
+      color: #666;
+      box-shadow: none;
+      cursor: not-allowed;
     }
+
     .btn-secondary {
       background: transparent;
-      border: 1px solid var(--border);
+      border: 1px solid var(--surface-border);
+      color: var(--text-muted);
+    }
+    .btn-secondary:hover {
+      border-color: #fff;
       color: #fff;
-      clip-path: none;
-      border-radius: 6px;
     }
-    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
 
-    /* --- PAYMENT & QR --- */
-    .payment-summary {
-      text-align: center; margin-bottom: 20px;
-    }
-    .pay-amount {
-      font-family: var(--font-tech); font-size: 36px; font-weight: 700;
-      color: var(--primary); text-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
-    }
-    .qr-frame {
-      width: 220px; height: 220px; margin: 0 auto;
-      background: #fff; padding: 10px;
-      border-radius: 12px;
-      position: relative;
-    }
-    .qr-frame::before {
-      content: ''; position: absolute; inset: -4px;
-      border: 2px dashed var(--primary); border-radius: 16px;
-      animation: spin 10s linear infinite; pointer-events: none;
-    }
-    .qr-img { width: 100%; height: 100%; object-fit: contain; }
+    /* --- PAYMENT SECTION (STEP 3) --- */
+    .payment-section { text-align: center; }
     
-    .upi-box {
-      background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border);
-      padding: 12px; margin-top: 15px;
-      border-radius: 8px;
-      display: flex; justify-content: space-between; align-items: center;
+    .qr-card {
+      background: #000;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--surface-border);
+      margin: 15px 0;
     }
-    .upi-text { font-family: monospace; color: var(--accent); }
-    .copy-icon { color: var(--text-muted); cursor: pointer; }
+    
+    .qr-box {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    
+    .qr-skeleton {
+      width: 100%; height: 100%;
+      background: #222;
+      animation: pulse 1.5s infinite;
+    }
 
-    /* --- UPLOAD --- */
-    .upload-zone {
-      border: 2px dashed var(--border);
-      background: rgba(255,255,255,0.02);
-      border-radius: 8px;
+    .qr-timer {
+      color: var(--error);
+      font-family: var(--font-display);
+      font-weight: 600;
+      margin: 10px 0;
+    }
+
+    .upi-id {
+      display: inline-block;
+      background: #1a1a1a;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px dashed #444;
+      color: var(--primary);
+      font-family: monospace;
+      margin: 5px 0;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 8px;
+    }
+    .copy-btn:hover { color: #fff; }
+
+    /* File Upload */
+    .file-upload-area {
+      border: 2px dashed var(--surface-border);
+      background: rgba(0,0,0,0.2);
+      border-radius: var(--radius-md);
       padding: 30px;
       text-align: center;
-      margin-top: 20px;
       transition: 0.3s;
       cursor: pointer;
     }
-    .upload-zone:hover { border-color: var(--primary); background: rgba(204, 255, 0, 0.05); }
-    .upload-preview {
-      max-height: 150px; border-radius: 8px; margin-top: 10px;
-      border: 1px solid var(--primary); display: none;
+    .file-upload-area:hover, .file-upload-area.dragover {
+      border-color: var(--primary);
+      background: rgba(255,184,0,0.05);
     }
-
-    /* --- SUCCESS & LOADER --- */
-    .loader-container { margin: 30px 0; }
-    .cyber-loader {
-      height: 6px; background: #222; width: 100%;
-      border-radius: 3px; overflow: hidden; position: relative;
+    
+    #screenshotPreview {
+      max-width: 100%;
+      margin-top: 15px;
+      border-radius: 8px;
+      display: none;
+      border: 1px solid var(--surface-border);
     }
-    .cyber-bar {
-      height: 100%; width: 0%;
+    
+    .upload-progress {
+      height: 3px;
       background: var(--primary);
-      box-shadow: 0 0 10px var(--primary);
-      transition: width 0.5s linear;
-    }
-    .status-text {
-      font-family: var(--font-tech); text-align: center;
-      margin-top: 10px; color: var(--primary); letter-spacing: 1px;
+      width: 0%;
+      margin-top: 10px;
+      transition: width 0.1s;
     }
 
-    .receipt-card {
-      background: #111; padding: 20px;
-      border-top: 4px solid var(--primary);
-      margin-top: 20px; border-radius: 0 0 8px 8px;
+    /* --- SUCCESS (STEP 4) --- */
+    .success-screen { text-align: center; }
+    .success-icon { 
+      font-size: 60px; 
+      color: var(--success); 
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(0,255,157,0.4);
     }
-    .r-row {
-      display: flex; justify-content: space-between;
-      margin-bottom: 10px; font-size: 13px;
-      border-bottom: 1px dashed #333; padding-bottom: 5px;
+    
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      color: #fff;
+      margin-bottom: 20px;
     }
-    .r-row:last-child { border: none; }
-    .r-val { font-weight: 600; color: #fff; font-family: var(--font-tech); letter-spacing: 0.5px; }
 
-    /* --- TOAST --- */
-    .cyber-toast {
-      position: fixed; top: 20px; right: -100%;
-      background: rgba(5, 5, 5, 0.95);
-      border: 1px solid var(--primary);
-      color: var(--primary);
+    /* Game Loader Bar */
+    .game-loader-wrap { margin: 30px 0; }
+    .game-bar-bg {
+      height: 10px;
+      background: #222;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .game-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #ff6b00);
+      width: 0%;
+      box-shadow: 0 0 10px rgba(255,184,0,0.5);
+      border-radius: 5px;
+      transition: width 1s linear;
+    }
+    .timer-text { font-family: monospace; color: var(--primary); font-size: 16px; }
+    
+    .receipt-box {
+      background: #111;
+      border: 1px solid #222;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      text-align: left;
+      margin-top: 20px;
+      font-family: monospace;
+    }
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      border-bottom: 1px dashed #333;
+      padding-bottom: 8px;
+    }
+    .receipt-label { color: #666; }
+    .receipt-value { color: #fff; font-weight: 600; }
+
+    /* --- TOAST & SOCIAL PROOF --- */
+    .toast {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+      background: #1a1a1a;
+      border: 1px solid var(--success);
       padding: 12px 24px;
-      font-family: var(--font-tech);
-      font-weight: 700;
-      z-index: 1000;
-      clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-      transition: right 0.4s ease;
-      display: flex; align-items: center; gap: 10px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .cyber-toast.show { right: 20px; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast i { color: var(--success); }
 
-    /* --- ANIMATIONS --- */
-    @keyframes blink { 0%,100%{opacity: 1;} 50%{opacity: 0.4;} }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(204, 255, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); } }
+    .social-proof {
+      position: fixed; bottom: 20px; left: 20px;
+      background: rgba(10,10,10,0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--surface-border);
+      padding: 10px 15px;
+      border-radius: 50px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 99;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+      animation: slideInLeft 0.5s ease;
+    }
+    @keyframes slideInLeft { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    
+    .social-proof-avatar {
+      width: 30px; height: 30px;
+      background: var(--primary);
+      border-radius: 50%;
+      color: #000;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .social-proof-text { font-size: 12px; color: #ccc; }
+    .social-proof-uc { color: var(--primary); font-weight: 700; }
 
-    .pulse-animation { animation: pulse 2s infinite; }
+    /* Particles CSS (Replacing Heavy JS) */
+    .floating-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .particle {
+      position: absolute;
+      color: var(--primary);
+      opacity: 0.1;
+      font-size: 10px;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      20% { opacity: 0.2; }
+      80% { opacity: 0.2; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    .night-msg {
+       display: none;
+       background: rgba(255, 184, 0, 0.05);
+       border: 1px solid var(--primary-dim);
+       color: var(--primary);
+       padding: 15px;
+       border-radius: var(--radius-md);
+       font-size: 13px;
+       margin-top: 15px;
+    }
+
+    .final-success-msg { display: none; color: var(--success); margin-top: 10px; font-weight: 600; }
+    
+    .confetti { position: fixed; width: 8px; height: 8px; z-index: 200; pointer-events: none; }
+
   </style>
 </head>
 
 <body>
   <audio id="bgmAudio" src="bgm.mp3" loop></audio>
+  <div class="floating-particles" id="floatingParticles"></div>
 
-  <div class="scanline"></div>
-  <div class="vignette"></div>
-
-  <div class="cyber-toast" id="toast">
-    <i class="fa-solid fa-check"></i> <span id="toastText">System Updated</span>
+  <div class="social-proof" id="socialProof">
+    <div class="social-proof-avatar" id="socialAvatar">A</div>
+    <div class="social-proof-text">
+      <div id="socialName" style="font-weight: 600; color: #fff;">Player</div>
+      purchased <span class="social-proof-uc" id="socialUC">660 UC</span>
+    </div>
   </div>
 
-  <div class="app-container">
-    
-    <header class="hud-header">
-      <div class="brand">
-        <img src="ucify.webp" alt="Logo" class="brand-logo">
-        <div class="brand-text">UC<span>IFY</span></div>
-      </div>
-      <div class="live-status">
-        <div class="status-dot"></div> <span id="liveOrders">142 Online</span>
-      </div>
-    </header>
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span class="toast-text" id="toastText">Copied!</span>
+  </div>
 
-    <div class="mission-tracker">
-      <div class="tracker-line-fill" id="trackLine"></div>
-      <div class="tracker-step active" data-step="1">1</div>
-      <div class="tracker-step" data-step="2">2</div>
-      <div class="tracker-step" data-step="3">3</div>
-      <div class="tracker-step" data-step="4"><i class="fa-solid fa-flag-checkered"></i></div>
+  <div class="container">
+    
+    <div class="top-card">
+      <div class="header">
+        <img src="ucify.webp" alt="UCify Logo" class="logo-img">
+        <p class="tagline">Premium BGMI UC • Lightning-fast delivery</p>
+
+        <div class="partner-block">
+          <div class="partner-badge"><i class="fa-solid fa-certificate"></i> Verified Partner</div>
+        </div>
+
+        <div class="trust-strip">
+          <div class="trust-pill"><i class="fa-solid fa-lock"></i> Secure</div>
+          <div class="trust-pill"><i class="fa-solid fa-bolt"></i> Instant</div>
+          <div class="trust-pill"><i class="fa-solid fa-headset"></i> 24/7</div>
+        </div>
+
+        <div class="live-stats">
+          <div class="stat-badge">
+            <i class="fa-solid fa-earth-asia" style="color: var(--accent);"></i>
+            <span id="liveOrders" class="stat-number">1425</span> Orders Today
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-container">
+        <div class="progress-step active" data-step="1">1</div>
+        <div class="progress-line" id="line1"></div> <div class="progress-step" data-step="2">2</div>
+        <div class="progress-line" id="line2"></div>
+        <div class="progress-step" data-step="3">3</div>
+        <div class="progress-line" id="line3"></div>
+        <div class="progress-step" data-step="4"><i class="fa-solid fa-check"></i></div>
+      </div>
     </div>
 
     <div id="step1" class="step active">
-      <div class="tech-card">
-        <div class="card-title"><i class="fa-solid fa-user-astronaut"></i> Identify</div>
-        <p class="card-subtitle">Enter Battlegrounds credentials to proceed.</p>
+      <div class="step-content">
+        <h2 class="step-title">Player Details</h2>
+        <p class="subnote">Enter your BGMI ID to verify account</p>
 
-        <div class="input-group">
-          <label class="input-label">UID Number</label>
-          <input type="tel" class="tech-input" id="uid" placeholder="51234..." maxlength="12" inputmode="numeric">
-          <div class="input-status" id="uidIcon"><i class="fa-solid fa-check" style="color:var(--success)"></i></div>
+        <div class="form-group">
+          <label class="form-label">BGMI Character ID (UID)</label>
+          <div class="form-input-wrapper">
+            <input type="tel" class="form-input" id="uid" placeholder="e.g. 5123456789" maxlength="12" inputmode="numeric">
+            <i class="input-icon" id="uidIcon"></i>
+          </div>
+          <div class="error-message" id="uidError">Invalid UID Format</div>
         </div>
 
-        <div class="input-group">
-          <label class="input-label">In-Game Name</label>
-          <input type="text" class="tech-input" id="ign" placeholder="e.g. MORTAL" maxlength="20">
-          <div class="input-status" id="ignIcon"><i class="fa-solid fa-check" style="color:var(--success)"></i></div>
+        <div class="form-group">
+          <label class="form-label">In-Game Name (IGN)</label>
+          <div class="form-input-wrapper">
+            <input type="text" class="form-input" id="ign" placeholder="e.g. Mortal" maxlength="20">
+            <i class="input-icon" id="ignIcon"></i>
+          </div>
+          <div class="error-message" id="ignError">Name Required</div>
         </div>
 
-        <div class="btn-container">
-          <button type="button" class="btn btn-primary" id="next1" disabled>INITIATE <i class="fa-solid fa-angle-right"></i></button>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="next1" disabled>Verify & Continue <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </div>
     </div>
 
     <div id="step2" class="step">
-      <div class="tech-card">
-        <div class="card-title"><i class="fa-solid fa-box-open"></i> Select Loadout</div>
-        <p class="card-subtitle">Target: <span id="displayUid" style="color:var(--accent); font-family: monospace;">--</span></p>
+      <div class="step-content">
+        <h2 class="step-title">Select Loadout</h2>
+        <p class="subnote">Top up for <span id="displayUid" style="color:var(--primary);">--</span></p>
 
-        <div class="pack-grid" id="packsGrid">
-          <div class="pack-item" data-uc="60" data-price="40">
-            <span class="uc-amt">60 UC</span>
-            <span class="price-tag">₹40</span>
+        <div class="packs-grid" id="packsGrid">
+          <div class="pack-card" data-uc="60" data-price="40">
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 60</div>
+            <div class="pack-price">₹40</div>
           </div>
-          <div class="pack-item" data-uc="660" data-price="375">
-             <div style="position:absolute; top:0; right:0; background:var(--primary); color:#000; font-size:9px; padding:2px 6px; font-weight:bold;">HOT</div>
-            <span class="uc-amt">660 UC</span>
-            <span class="price-tag">₹375</span>
+          <div class="pack-card" data-uc="660" data-price="375">
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 660</div>
+            <div class="pack-price">₹375</div>
           </div>
-          <div class="pack-item" data-uc="1800" data-price="950">
-            <span class="uc-amt">1800 UC</span>
-            <span class="price-tag">₹950</span>
+          <div class="pack-card" data-uc="1800" data-price="950">
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 1800</div>
+            <div class="pack-price">₹950</div>
           </div>
-          <div class="pack-item" data-uc="3850" data-price="1710">
-            <span class="uc-amt">3850 UC</span>
-            <span class="price-tag">₹1710</span>
+          <div class="pack-card" data-uc="3850" data-price="1710">
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 3850</div>
+            <div class="pack-price">₹1710</div>
           </div>
-          <div class="pack-item" data-uc="8100" data-price="3375">
-            <span class="uc-amt">8100 UC</span>
-            <span class="price-tag">₹3375</span>
+          <div class="pack-card" data-uc="8100" data-price="3375">
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 8100</div>
+            <div class="pack-price">₹3375</div>
           </div>
-          <div class="pack-item" data-uc="16200" data-price="5260">
-            <span class="uc-amt">16200 UC</span>
-            <span class="price-tag">₹5260</span>
+          <div class="pack-card" data-uc="16200" data-price="5260">
+             <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 16200</div>
+            <div class="pack-price">₹5260</div>
           </div>
         </div>
 
-        <div class="btn-container">
-          <button type="button" class="btn btn-secondary" id="backToDetails">BACK</button>
-          <button type="button" class="btn btn-primary" id="next2" disabled>CONFIRM</button>
+        <div class="btn-row">
+           <button type="button" class="btn btn-secondary" id="backToDetails">Back</button>
+           <button type="button" class="btn btn-primary" id="next2" disabled>Checkout</button>
         </div>
       </div>
     </div>
 
     <div id="step3" class="step">
-      <div class="tech-card">
-        <div class="card-title"><i class="fa-solid fa-qrcode"></i> Transaction</div>
-        
-        <div class="payment-summary">
-          <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Total Payable</div>
-          <div id="paymentAmount" class="pay-amount">₹0</div>
-        </div>
+      <div class="step-content">
+        <h2 class="step-title">Payment Gateway</h2>
+        <p class="subnote">Complete transaction to trigger transfer</p>
 
-        <div class="qr-frame">
-          <div id="qrLoader" style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--primary);">
-            <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>
+        <div class="payment-section">
+          <div style="font-size: 14px; margin-bottom: 10px; color: var(--text-muted);">TOTAL PAYABLE</div>
+          <div style="font-size: 32px; font-weight: 800; color: var(--primary); font-family: var(--font-display); margin-bottom: 20px;">
+            <span id="paymentAmount">₹0</span>
           </div>
-          <img id="staticQrImage" src="" class="qr-img" style="display:none;">
+
+          <div class="qr-card">
+            <div class="qr-box">
+               <div id="qrLoader" class="qr-skeleton"></div>
+               <img id="staticQrImage" src="" alt="Scan QR" style="width:100%; height:100%; object-fit:contain; display:none;">
+            </div>
+            
+            <div class="qr-timer" id="qrTimer" style="display:none;">
+              <i class="fa-regular fa-clock"></i> <span id="timerDisplay">15:00</span>
+            </div>
+
+            <div style="margin-top: 15px;">
+              <div style="font-size: 11px; color: #666; margin-bottom: 5px;">UPI ID / VPA</div>
+              <span id="upiIdText" class="upi-id">--</span>
+              <button type="button" class="copy-btn" id="copyUpiBtn"><i class="fa-solid fa-copy"></i></button>
+            </div>
+          </div>
+
+          <div style="text-align: left; font-size: 12px; color: #888; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
+            <i class="fa-solid fa-circle-info" style="color: var(--accent);"></i> 
+            Scan the QR code and pay exactly the amount shown. Take a screenshot of the success screen.
+          </div>
         </div>
 
-        <div style="text-align:center; margin-top:10px; font-size:12px; color:var(--error);" id="qrTimer">
-          Session expires in <span id="timerDisplay" style="font-weight:bold; font-family:monospace;">15:00</span>
-        </div>
-
-        <div class="upi-box">
-          <span class="upi-text" id="upiIdText">--</span>
-          <i class="fa-solid fa-copy copy-icon" id="copyUpiBtn"></i>
-        </div>
-
-        <form id="orderForm" name="uc-order" method="POST" enctype="multipart/form-data" data-netlify="true">
+        <form id="orderForm" name="uc-order" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
           <input type="hidden" name="form-name" value="uc-order">
           <input type="hidden" name="packuc" id="packuc">
           <input type="hidden" name="packprice" id="packprice">
@@ -537,67 +817,73 @@
           <input type="hidden" name="time" id="timefield">
           <input type="hidden" name="orderid" id="orderidfield">
 
-          <div class="upload-zone" id="uploadArea">
-            <i class="fa-solid fa-cloud-arrow-up" style="font-size:24px; color:var(--text-muted); margin-bottom:10px;" id="uploadIcon"></i>
-            <div style="font-size:13px; font-weight:600;" id="uploadText">UPLOAD SCREENSHOT</div>
-            <div style="font-size:10px; color:var(--text-muted);">JPG/PNG Proof of Payment</div>
+          <div class="file-upload-area" id="uploadArea">
+            <i class="fas fa-cloud-arrow-up" id="uploadIcon" style="font-size: 32px; color: var(--text-muted); margin-bottom: 10px;"></i>
+            <i class="fas fa-check-circle upload-success-icon" id="uploadSuccessIcon" style="display:none; font-size: 40px; color: var(--success);"></i>
+            <div id="uploadText" style="font-weight: 600; font-size: 14px;">Upload Payment Screenshot</div>
+            <div class="hint" id="uploadHint" style="font-size: 11px; color: #666;">Tap to browse or drag file here</div>
+            
             <input type="file" id="screenshot" name="paymentscreenshot" accept="image/*" style="display:none;" required>
-            <img id="screenshotPreview" class="upload-preview">
-            <div id="uploadProgress" style="height:2px; background:var(--primary); width:0%; margin-top:10px; transition:width 0.2s;"></div>
+            <img id="screenshotPreview">
+            <div class="upload-progress" id="uploadProgress"></div>
           </div>
 
-          <div class="btn-container">
-            <button type="button" class="btn btn-secondary" id="back3">CANCEL</button>
-            <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">EXECUTE ORDER</button>
+          <div class="btn-row">
+            <button type="button" class="btn btn-secondary" id="back3">Back</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">Confirm Order</button>
           </div>
         </form>
       </div>
     </div>
 
     <div id="step4" class="step">
-      <div class="tech-card" style="text-align:center;">
-        <i class="fa-solid fa-circle-check pulse-animation" style="font-size:50px; color:var(--success); margin-bottom:15px;"></i>
-        <div class="card-title" style="justify-content:center; color:var(--success);">ORDER RECEIVED</div>
+      <div class="step-content success-screen">
+        <div class="success-icon"><i class="fa-regular fa-circle-check"></i></div>
+        <h2 class="success-title">Order Confirmed</h2>
         
-        <div class="loader-container" id="gameLoaderWrap">
-           <div class="cyber-loader"><div class="cyber-bar" id="gameBarFill"></div></div>
-           <div class="status-text" id="deliveryMsg">ESTABLISHING UPLINK...</div>
-           <div style="font-family:monospace; margin-top:5px; color:#fff;">ETA: <span id="deliveryTimer">07:00</span></div>
+        <div class="game-loader-wrap" id="gameLoaderWrap">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span class="delivery-msg" id="deliveryMsg">Connecting to Servers...</span>
+                <span class="timer-text" id="deliveryTimer">07:00</span>
+            </div>
+            <div class="game-bar-bg">
+                <div class="game-bar-fill" id="gameBarFill"></div>
+            </div>
         </div>
 
-        <div id="nightMessage" style="display:none; background:rgba(255, 200, 0, 0.1); border:1px solid #ffcc00; padding:15px; border-radius:8px; font-size:13px; margin:20px 0; color:#ffcc00;">
-          <i class="fa-solid fa-moon"></i> <strong>NIGHT OPS PAUSED</strong><br>
-          Delivery will resume automatically after 09:00 AM.
+        <div class="night-msg" id="nightMessage">
+             <i class="fas fa-moon" style="margin-bottom: 8px; font-size: 18px;"></i><br>
+             <strong>Night Mode Active</strong><br>
+             Instant delivery paused. UC will be credited after 9:00 AM.
         </div>
 
-        <div id="finalSuccessMsg" style="display:none; color:var(--success); font-weight:bold; margin-top:20px;">
-          <i class="fa-solid fa-check-double"></i> ASSETS TRANSFERRED.
+        <div class="final-success-msg" id="finalSuccessMsg">
+             UC Transfer Complete.
         </div>
 
-        <div style="margin-top:20px; font-size:13px;">
-          ORDER ID: <span id="orderIdText" style="color:var(--primary); font-family:monospace; cursor:pointer;" onclick="copyOrderId()">--</span>
-          <i class="fa-regular fa-copy" onclick="copyOrderId()" style="margin-left:5px; cursor:pointer; color:var(--text-muted);"></i>
+        <div class="receipt-box">
+          <div style="color: var(--primary); margin-bottom: 15px; font-weight: 700; display:flex; justify-content:space-between;">
+             <span>RECEIPT</span>
+             <span><span id="orderIdText" style="color: #fff; cursor: pointer;" onclick="copyOrderId()">--</span> <i class="fa-solid fa-copy" style="font-size:12px; margin-left:5px;"></i></span>
+          </div>
+          <div class="receipt-row"><span class="receipt-label">Pack</span><span class="receipt-value" id="receipt-pack">--</span></div>
+          <div class="receipt-row"><span class="receipt-label">Amount</span><span class="receipt-value" id="receipt-amount">--</span></div>
+          <div class="receipt-row"><span class="receipt-label">UID</span><span class="receipt-value" id="receipt-uid">--</span></div>
+          <div class="receipt-row"><span class="receipt-label">IGN</span><span class="receipt-value" id="receipt-ign">--</span></div>
+          <div class="receipt-row"><span class="receipt-label">Time</span><span class="receipt-value" id="receipt-time">--</span></div>
         </div>
 
-        <div class="receipt-card">
-          <div class="r-row"><span>PACK</span> <span class="r-val" id="receipt-pack">--</span></div>
-          <div class="r-row"><span>UID</span> <span class="r-val" id="receipt-uid">--</span></div>
-          <div class="r-row"><span>IGN</span> <span class="r-val" id="receipt-ign">--</span></div>
-          <div class="r-row" style="border:none; margin-top:10px; font-size:16px;"><span>TOTAL</span> <span class="r-val" style="color:var(--primary);" id="receipt-amount">--</span></div>
+        <div id="newOrderBtnWrap" style="margin-top: 20px;">
+          <button type="button" class="btn btn-primary" onclick="location.reload()" id="newOrderBtn" style="display:none;">Place Another Order</button>
         </div>
-
-        <button class="btn btn-primary" onclick="location.reload()" id="newOrderBtn" style="margin-top:20px; width:100%; display:none;">NEW MISSION</button>
       </div>
     </div>
-
   </div>
 
   <script>
-    // --- ORIGINAL CONFIGURATION ---
+    // --- GOOGLE SHEETS BACKEND CONFIGURATION ---
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxZmmaWlqrx9ydYVfO3XkZKh25Oxa_k0XiLNBPbEVEBOwZTlE2qPxF6OEoU-I9oJzLj/exec"; 
-    const UPIVPA = "ucify@ptaxis";
-    
-    // Global Vars
+
     let currentStep = 1;
     let selectedPack = null;
     let screenshotFile = null;
@@ -607,273 +893,465 @@
     let currentUid = "";
     let currentIgn = "";
 
-    // Audio Logic
+    const UPIVPA = "ucify@ptaxis";
+    const UPI_NAME = "UCify";
+
+    // --- BGM AUDIO SETUP ---
     const bgm = document.getElementById('bgmAudio');
-    bgm.volume = 0.3;
-    document.body.addEventListener('click', () => { if(bgm.paused) bgm.play().catch(e=>console.log(e)); }, { once: true });
+    bgm.volume = 0.3; 
 
-    // Toast Function
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        document.getElementById('toastText').innerText = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2500);
+    function initAudio() {
+        if(bgm.paused) {
+            bgm.play().catch(e => console.log("Audio waiting for interaction"));
+        }
+    }
+    document.body.addEventListener('click', initAudio, { once: true });
+    document.body.addEventListener('touchstart', initAudio, { once: true });
+
+    document.addEventListener("visibilitychange", function() {
+        if (document.hidden) { bgm.pause(); } else { bgm.play().catch(e => console.log("Waiting")); }
+    });
+
+    // Modified particle init for CSS based system
+    function initParticles(){
+      const container = document.getElementById('floatingParticles');
+      for(let i = 0; i < 15; i++){
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.innerHTML = '✦';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+        container.appendChild(particle);
+      }
     }
 
-    // Navigation & UI Updates
-    function showStep(step) {
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${step}`).classList.add('active');
-        currentStep = step;
-        updateTracker();
+    function createConfetti(){
+      const colors = ['#FFB800', '#00E0FF', '#ffffff'];
+      for(let i = 0; i < 50; i++){
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.top = '-10px';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          
+          // CSS animation for falling
+          confetti.animate([
+            { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
+            { transform: `translate(${Math.random()*100 - 50}px, 100vh) rotate(720deg)`, opacity: 0 }
+          ], {
+            duration: 2000 + Math.random() * 2000,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+          });
+          
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 4000);
+        }, i * 30);
+      }
     }
 
-    function updateTracker() {
-        const steps = document.querySelectorAll('.tracker-step');
-        const fill = document.getElementById('trackLine');
-        
-        steps.forEach((el, idx) => {
-            el.classList.toggle('active', idx === currentStep - 1);
-            el.classList.toggle('completed', idx < currentStep - 1);
-            if(idx < currentStep - 1) el.innerHTML = '<i class="fa-solid fa-check"></i>';
-            else if(idx === 3) el.innerHTML = '<i class="fa-solid fa-flag-checkered"></i>';
-            else el.innerText = idx + 1;
-        });
+    document.addEventListener('DOMContentLoaded', () => {
+      initParticles();
+      document.getElementById('next1').disabled = true;
+    });
 
-        const percentage = ((currentStep - 1) / 3) * 100;
-        fill.style.width = percentage + "%";
+    const gamingNames = [ "亗『MÂFÎÂ亗", "TOXIC彡KD", "77・playzYT", "SK๛play๛Live", "千ムＩＲＹＹ", "IQōShāDøwW", "LÙÇÍFËR〆", "Mâhïmâ", "DEMØN丨DEEPAK", "亗CZxAnurag亗", "FRSTxZGOD", "FGxWONGPLAYzzz", "GÕD〤RÚSHÈR", "IGメABHAY", "MR々ŁEGENÐ", "VÌNNÍ乂PLAYZ", "KGF๛OP亗×", "ROYALツKUNAL20", "『RÁGNÁR』", "GLXY丨DANGER", "SHADOW๛RIVEN", "會DAKU父", "LEGEND丶OPP", "SAʀDAʀJi", "HAWK么HARSH", "ZMCxSHREY", "K4气KALAAKAR", "『AIMGOD』1", "T乛Rex乛RAVAN", "Ē・ＶＥＮＯＭ", "๛『Vëgêtå", "4A乛M丨SNOW", "٭ɞALPHAʚ٭", "im๛PANDA", "SGLxShivam", "乛GameīxīOM", "・Ｄ卄マＵＶ・", "『EPC』KRXSNA", "ＦｒＯｚｅＮ", "๛Ðʀʌɢo", "ＹＡＳＨīě", "ＳＨＵ及Ｈ", "XT个『Farhan』", "D£ATH๛SLAYER", "『LAKSHYÀ』", "中ツWARRIORYT", "Vns๛Rahul", "EQZxJOKERyt", "ReFLeXツVENOM", "冬ＧＡＢＢＡＲ" ];
+
+    const ucPacksList = ["60 UC", "660 UC", "1800 UC", "3850 UC", "8100 UC", "16200 UC"];
+
+    function showSocialProof(){
+      const randomName = gamingNames[Math.floor(Math.random() * gamingNames.length)];
+      const randomUC = ucPacksList[Math.floor(Math.random() * ucPacksList.length)];
+      const el = document.getElementById('socialProof');
+      document.getElementById('socialAvatar').textContent = randomName[0];
+      document.getElementById('socialName').textContent = randomName;
+      document.getElementById('socialUC').textContent = randomUC;
+      el.style.display = 'flex';
+      setTimeout(() => { el.style.display = 'none'; }, 5000);
     }
 
-    // Step 1: Input Logic
-    const uidIn = document.getElementById('uid');
-    const ignIn = document.getElementById('ign');
-    const next1 = document.getElementById('next1');
+    setInterval(() => { if(Math.random() > 0.5) showSocialProof(); }, 10000);
 
-    function checkS1() {
-        const u = uidIn.value.length >= 9;
-        const i = ignIn.value.length >= 3;
-        if(u) document.getElementById('uidIcon').classList.add('active');
-        else document.getElementById('uidIcon').classList.remove('active');
-        
-        if(i) document.getElementById('ignIcon').classList.add('active');
-        else document.getElementById('ignIcon').classList.remove('active');
-
-        next1.disabled = !(u && i);
+    function getIndiaHour(){
+      const date = new Date();
+      const hourStr = date.toLocaleString("en-US", {timeZone: "Asia/Kolkata", hour: "numeric", hour12: false});
+      return parseInt(hourStr);
     }
 
-    uidIn.addEventListener('input', function() { this.value = this.value.replace(/\D/g,'').slice(0,12); checkS1(); });
-    ignIn.addEventListener('input', checkS1);
+    function animateLiveOrders(){
+      const el = document.getElementById('liveOrders');
+      let currentOrders = 1000 + Math.floor(Math.random() * 2001);
+      el.textContent = currentOrders;
+      function updateCounter() {
+          currentOrders += 1;
+          el.textContent = currentOrders;
+          let nextInterval = 15000 + Math.floor(Math.random() * 5001);
+          setTimeout(updateCounter, nextInterval);
+      }
+      setTimeout(updateCounter, 15000);
+    }
+    animateLiveOrders();
 
-    // Continue to Packs
-    next1.onclick = async () => {
-        next1.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> CHECKING DATABASE';
-        next1.disabled = true;
-        
-        currentUid = uidIn.value;
-        currentIgn = ignIn.value;
-        document.getElementById('displayUid').innerText = currentUid;
+    function startQRTimer(){
+      const display = document.getElementById('timerDisplay');
+      const timerEl = document.getElementById('qrTimer');
+      timerEl.style.display = 'block'; // Adjusted for new layout (block instead of flex)
+       
+      if(qrTimer) clearInterval(qrTimer);
+      timerSeconds = 900;
+      qrTimer = setInterval(() => {
+        timerSeconds--;
+        const mins = Math.floor(timerSeconds / 60);
+        const secs = timerSeconds % 60;
+        display.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+         
+        if(timerSeconds <= 0){
+          clearInterval(qrTimer);
+          display.textContent = 'Expired';
+        }
+      }, 1000);
+    }
 
-        // Fetch History
-        try {
-            if(APPS_SCRIPT_URL) {
-                const res = await fetch(`${APPS_SCRIPT_URL}?uid=${currentUid}`);
-                const data = await res.json();
-                const purchased = data.purchased || [];
-                
-                document.querySelectorAll('.pack-item').forEach(p => {
-                    p.classList.remove('purchased', 'selected');
-                    if(purchased.includes(p.dataset.uc)) p.classList.add('purchased');
-                });
-            }
-        } catch(e) { console.log("Offline mode or Fetch error"); }
+    function showToast(message){
+      const toast = document.getElementById('toast');
+      document.getElementById('toastText').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
 
-        next1.innerHTML = 'INITIATE <i class="fa-solid fa-angle-right"></i>';
-        next1.disabled = false;
-        showStep(2);
-    };
+    function copyOrderId(){
+      const orderIdEl = document.getElementById('orderIdText');
+      navigator.clipboard.writeText(orderIdEl.textContent).then(() => {
+        showToast('Order ID copied!');
+        triggerHaptic('success');
+      });
+    }
 
-    document.getElementById('backToDetails').onclick = () => showStep(1);
+    function triggerHaptic(type='light'){
+      if(!navigator.vibrate) return;
+      const patterns = { light:[10], medium:[20], heavy:[30], success:[10,20,10] };
+      navigator.vibrate(patterns[type] || [10]);
+    }
 
-    // Step 2: Pack Selection
-    document.querySelectorAll('.pack-item').forEach(item => {
-        item.addEventListener('click', function() {
+    function generateOrderId(){
+      return `UCF-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random()*900)}`;
+    }
+
+    function showStep(step){
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step${step}`).classList.add('active');
+      currentStep = step;
+      updateProgress();
+    }
+
+    function updateProgress(){
+      const steps = document.querySelectorAll('.progress-step');
+      steps.forEach((stepEl, idx) => {
+        stepEl.classList.toggle('completed', idx < currentStep - 1);
+        stepEl.classList.toggle('active', idx === currentStep - 1);
+      });
+    }
+
+    const uidInput = document.getElementById('uid');
+    const ignInput = document.getElementById('ign');
+    const uidIcon = document.getElementById('uidIcon');
+    const ignIcon = document.getElementById('ignIcon');
+    const uidError = document.getElementById('uidError');
+
+    document.querySelectorAll('.pack-card').forEach(card => {
+        card.addEventListener('click', function(){
             if(this.classList.contains('purchased')) return;
-            document.querySelectorAll('.pack-item').forEach(p => p.classList.remove('selected'));
+            triggerHaptic('light');
+            document.querySelectorAll('.pack-card').forEach(c => {
+              c.classList.remove('selected');
+              c.querySelector('.check-mark')?.remove();
+            });
             this.classList.add('selected');
+            const checkMark = document.createElement('div');
+            checkMark.className = 'check-mark';
+            checkMark.innerHTML = '<i class="fa-solid fa-check"></i>';
+            this.appendChild(checkMark);
             selectedPack = { uc: this.dataset.uc, price: this.dataset.price };
             document.getElementById('next2').disabled = false;
         });
     });
 
-    document.getElementById('next2').onclick = () => {
-        document.getElementById('paymentAmount').innerText = "₹" + selectedPack.price;
-        orderId = `UCF-${Date.now().toString().slice(-6)}-${Math.floor(100+Math.random()*900)}`;
-        document.getElementById('upiIdText').innerText = UPIVPA;
-        
-        // QR Logic
-        const qrImg = document.getElementById('staticQrImage');
-        const loader = document.getElementById('qrLoader');
-        qrImg.style.display = 'none'; loader.style.display = 'flex';
-        qrImg.src = `${selectedPack.price}qr.webp`; 
-        
-        qrImg.onload = () => { loader.style.display = 'none'; qrImg.style.display = 'block'; startTimer(); };
-        qrImg.onerror = () => { loader.style.display = 'none'; alert("QR Code not found for this amount."); };
-        
-        showStep(3);
+    function checkStep1Validation() {
+        const uidVal = uidInput.value.replace(/\D/g, '');
+        const ignVal = ignInput.value.trim();
+        const isUidValid = uidVal.length >= 9 && uidVal.length <= 12;
+        const isIgnValid = ignVal.length >= 2;
+        document.getElementById('next1').disabled = !(isUidValid && isIgnValid);
+    }
+
+    uidInput.addEventListener('input', function(){
+      this.value = this.value.replace(/\D/g, '').slice(0,12);
+      const len = this.value.length;
+      const isValid = len >= 9 && len <= 12;
+      if(isValid){
+          uidInput.style.borderColor = "var(--success)"; // Inline style for override
+          uidIcon.className = 'input-icon check fas fa-check-circle';
+          uidError.classList.remove('show');
+          triggerHaptic('light');
+      } else {
+          uidInput.style.borderColor = "";
+          uidIcon.className = '';
+      }
+      checkStep1Validation();
+    });
+
+    ignInput.addEventListener('input', function(){
+        const isValid = this.value.trim().length >= 2;
+        if(isValid){
+          ignInput.style.borderColor = "var(--success)";
+          ignIcon.className = 'input-icon check fas fa-check-circle';
+          triggerHaptic('light');
+        } else {
+          ignInput.style.borderColor = "";
+          ignIcon.className = '';
+        }
+        checkStep1Validation();
+    });
+
+    async function fetchPurchasedPacks(uid) {
+        if(!APPS_SCRIPT_URL) return [];
+        try {
+            const response = await fetch(`${APPS_SCRIPT_URL}?uid=${uid}`);
+            const data = await response.json();
+            return data.purchased || [];
+        } catch (e) { return []; }
+    }
+
+    document.getElementById('next1').onclick = async () => {
+        const btn = document.getElementById('next1');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+        btn.disabled = true;
+
+        currentUid = uidInput.value;
+        currentIgn = ignInput.value;
+        document.getElementById('displayUid').textContent = currentUid;
+
+        const purchasedPacks = await fetchPurchasedPacks(currentUid);
+         
+        document.querySelectorAll('.pack-card').forEach(card => {
+            card.classList.remove('purchased', 'selected');
+            card.querySelector('.check-mark')?.remove();
+            if(purchasedPacks.includes(card.dataset.uc)){
+                card.classList.add('purchased');
+            }
+        });
+
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        showStep(2);
     };
 
-    document.getElementById('back3').onclick = () => { clearInterval(qrTimer); showStep(2); };
+    document.getElementById('backToDetails').onclick = () => showStep(1);
 
-    // QR Timer
-    function startTimer() {
-        if(qrTimer) clearInterval(qrTimer);
-        timerSeconds = 900;
-        const display = document.getElementById('timerDisplay');
-        qrTimer = setInterval(() => {
-            timerSeconds--;
-            const m = Math.floor(timerSeconds / 60);
-            const s = timerSeconds % 60;
-            display.innerText = `${m}:${s.toString().padStart(2,'0')}`;
-            if(timerSeconds <= 0) clearInterval(qrTimer);
+    document.getElementById('next2').onclick = function(){
+      const amountEl = document.getElementById('paymentAmount');
+      amountEl.textContent = '₹' + selectedPack.price;
+      orderId = generateOrderId();
+      document.getElementById('upiIdText').textContent = UPIVPA;
+       
+      const qrImage = document.getElementById('staticQrImage');
+      const loader = document.getElementById('qrLoader');
+       
+      qrImage.style.display = 'none';
+      loader.style.display = 'block';
+
+      const qrFilename = `${selectedPack.price}qr.webp`;
+      qrImage.src = qrFilename;
+
+      qrImage.onload = function(){
+          loader.style.display = 'none';
+          qrImage.style.display = 'block';
+          startQRTimer();
+      };
+
+      qrImage.onerror = function(){
+          loader.style.display = 'none';
+          alert(`Image missing: ${qrFilename}. Please upload it to your repo.`);
+      };
+
+      showStep(3);
+    };
+
+    document.getElementById('back3').onclick = () => {
+      if(qrTimer) clearInterval(qrTimer);
+      showStep(2);
+    };
+
+    document.getElementById('copyUpiBtn').onclick = async function(){
+      triggerHaptic('light');
+      try {
+          await navigator.clipboard.writeText(UPIVPA);
+          showToast('UPI ID copied!');
+      } catch (err) { alert("UPI ID: " + UPIVPA); }
+    };
+
+    const fileInput = document.getElementById('screenshot');
+    const preview = document.getElementById('screenshotPreview');
+    const uploadArea = document.getElementById('uploadArea');
+    const submitBtn = document.getElementById('submitBtn');
+
+    uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+    uploadArea.addEventListener('dragleave', () => { uploadArea.classList.remove('dragover'); });
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if(file && file.type.startsWith('image/')) handleFileUpload(file);
+    });
+
+    uploadArea.onclick = () => fileInput.click();
+    fileInput.onchange = (e) => { const file = e.target.files[0]; if(file) handleFileUpload(file); };
+
+    function handleFileUpload(file){
+      if(file.size <= 5*1024*1024){
+        screenshotFile = file;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          preview.src = evt.target.result;
+          preview.style.display = 'block';
+          const progressBar = document.getElementById('uploadProgress');
+          let width = 0;
+          const interval = setInterval(() => {
+            if(width >= 100){
+              clearInterval(interval);
+              document.getElementById('uploadIcon').style.display = 'none';
+              document.getElementById('uploadSuccessIcon').style.display = 'inline-block';
+              document.getElementById('uploadText').textContent = 'Screenshot Attached';
+              submitBtn.style.display = 'block';
+              triggerHaptic('success');
+            } else { width += 5; progressBar.style.width = width + '%'; }
+          }, 20);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("File too large. Please upload under 5MB.");
+      }
+    }
+
+    function startDeliveryTimer() {
+        const duration = 420; 
+        const timerText = document.getElementById('deliveryTimer');
+        const fillBar = document.getElementById('gameBarFill');
+        const msg = document.getElementById('deliveryMsg');
+
+        let endTime = localStorage.getItem('bgmiTimerEnd');
+        
+        if (!endTime) {
+            endTime = new Date().getTime() + (duration * 1000);
+            localStorage.setItem('bgmiTimerEnd', endTime);
+        }
+
+        const timerInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+            let secondsLeft = Math.floor(distance / 1000);
+            
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                fillBar.style.width = "100%";
+                msg.textContent = "Completed";
+                
+                document.getElementById('gameLoaderWrap').style.display = 'none';
+                document.getElementById('finalSuccessMsg').style.display = 'block';
+                document.getElementById('newOrderBtn').style.display = 'block';
+                
+                localStorage.removeItem('bgmiTimerEnd');
+                createConfetti();
+                triggerHaptic('success');
+                return;
+            }
+
+            const m = Math.floor(secondsLeft / 60);
+            const s = secondsLeft % 60;
+            timerText.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            
+            const totalDuration = 420; 
+            const percentage = ((totalDuration - secondsLeft) / totalDuration) * 100;
+            fillBar.style.width = percentage + "%";
+            
+            if(percentage > 20 && percentage < 40) msg.textContent = "Connecting to Servers...";
+            if(percentage > 40 && percentage < 60) msg.textContent = "Verifying UID...";
+            if(percentage > 60 && percentage < 80) msg.textContent = "Transferring UC...";
+            if(percentage > 80 && percentage < 99) msg.textContent = "Finalizing...";
+            
         }, 1000);
     }
 
-    // Copy UPI
-    document.getElementById('copyUpiBtn').onclick = () => {
-        navigator.clipboard.writeText(UPIVPA);
-        showToast("UPI ID COPIED");
-    };
-
-    // File Upload
-    const fileIn = document.getElementById('screenshot');
-    const uploadArea = document.getElementById('uploadArea');
-    
-    uploadArea.onclick = () => fileIn.click();
-    fileIn.onchange = (e) => {
-        const file = e.target.files[0];
-        if(file && file.size < 5*1024*1024) {
-            screenshotFile = file;
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                document.getElementById('screenshotPreview').src = evt.target.result;
-                document.getElementById('screenshotPreview').style.display = 'block';
-                document.getElementById('uploadIcon').style.display = 'none';
-                document.getElementById('uploadText').innerText = "SCREENSHOT LOADED";
-                
-                // Fake progress bar
-                let w = 0;
-                const int = setInterval(() => {
-                    w += 10;
-                    document.getElementById('uploadProgress').style.width = w + "%";
-                    if(w>=100) { clearInterval(int); document.getElementById('submitBtn').style.display = 'block'; }
-                }, 50);
-            };
-            reader.readAsDataURL(file);
-        } else { alert("File too big (Max 5MB)"); }
-    };
-
-    // Form Submit
     document.getElementById('orderForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-cog fa-spin"></i> PROCESSING...';
+      e.preventDefault();
+      if(!screenshotFile) {
+          alert("Please upload a payment screenshot first.");
+          return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      const time = new Date().toLocaleString('en-IN', { timeZone:'Asia/Kolkata' });
+       
+      document.getElementById('packuc').value = selectedPack.uc;
+      document.getElementById('packprice').value = selectedPack.price;
+      document.getElementById('bgmiuid').value = currentUid;
+      document.getElementById('ignfield').value = currentIgn;
+      document.getElementById('timefield').value = time;
+      document.getElementById('orderidfield').value = orderId;
 
-        // Hidden Fields
-        document.getElementById('packuc').value = selectedPack.uc;
-        document.getElementById('packprice').value = selectedPack.price;
-        document.getElementById('bgmiuid').value = currentUid;
-        document.getElementById('ignfield').value = currentIgn;
-        document.getElementById('timefield').value = new Date().toLocaleString('en-IN');
-        document.getElementById('orderidfield').value = orderId;
-
-        try {
-            await fetch('/', { method: 'POST', body: new FormData(e.target) });
-            
-            // Sheet Backup
-            if(APPS_SCRIPT_URL) {
-                fetch(APPS_SCRIPT_URL, {
-                    method: 'POST', mode: 'no-cors',
+      try {
+        const res = await fetch('/', { method: 'POST', body: new FormData(e.target) });
+         
+        if(res.ok) {
+          if(APPS_SCRIPT_URL) {
+             try {
+                const sheetData = { uid: currentUid, uc: selectedPack.uc };
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({uid: currentUid, uc: selectedPack.uc})
-                }).catch(err => console.log(err));
-            }
+                    body: JSON.stringify(sheetData)
+                });
+             } catch(sheetErr) { console.log(sheetErr); }
+          }
 
-            // Success UI
-            document.getElementById('orderIdText').innerText = orderId;
-            document.getElementById('receipt-pack').innerText = selectedPack.uc + " UC";
-            document.getElementById('receipt-amount').innerText = "₹" + selectedPack.price;
-            document.getElementById('receipt-uid').innerText = currentUid;
-            document.getElementById('receipt-ign').innerText = currentIgn;
-            
-            clearInterval(qrTimer);
-            showStep(4);
-            handleDeliveryTimer();
+          document.getElementById('orderIdText').textContent = orderId;
+          document.getElementById('receipt-pack').textContent = selectedPack.uc + " UC";
+          document.getElementById('receipt-amount').textContent = "₹" + selectedPack.price;
+          document.getElementById('receipt-uid').textContent = currentUid;
+          document.getElementById('receipt-ign').textContent = currentIgn;
+          document.getElementById('receipt-time').textContent = time;
+          if(qrTimer) clearInterval(qrTimer);
+           
+          showStep(4);
+          triggerHaptic('success');
+           
+          localStorage.removeItem('bgmiTimerEnd');
 
-        } catch(err) {
-            alert("Submission Error. Please check connection.");
-            btn.disabled = false; btn.innerText = "EXECUTE ORDER";
-        }
+          const currentHour = getIndiaHour();
+          const isNightTime = (currentHour >= 0 && currentHour < 9);
+
+          if (isNightTime) {
+              document.getElementById('gameLoaderWrap').style.display = 'none';
+              document.getElementById('nightMessage').style.display = 'block';
+              document.getElementById('newOrderBtn').style.display = 'block';
+          } else {
+              document.getElementById('gameLoaderWrap').style.display = 'block';
+              document.getElementById('nightMessage').style.display = 'none';
+              startDeliveryTimer();
+          }
+           
+        } else throw new Error();
+      } catch(err) {
+        alert("Submission failed. Try again.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Confirm Order";
+      }
     };
-
-    // Delivery Timer Logic
-    function handleDeliveryTimer() {
-        const h = parseInt(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata", hour: "numeric", hour12: false}));
-        
-        if(h >= 0 && h < 9) {
-            document.getElementById('gameLoaderWrap').style.display = 'none';
-            document.getElementById('nightMessage').style.display = 'block';
-            document.getElementById('newOrderBtn').style.display = 'block';
-        } else {
-            let end = localStorage.getItem('bgmiTimerEnd');
-            if(!end) {
-                end = new Date().getTime() + (420 * 1000);
-                localStorage.setItem('bgmiTimerEnd', end);
-            }
-            
-            const bar = document.getElementById('gameBarFill');
-            const msg = document.getElementById('deliveryMsg');
-            
-            const intv = setInterval(() => {
-                const now = new Date().getTime();
-                const dist = end - now;
-                const secs = Math.floor(dist/1000);
-                
-                if(dist < 0) {
-                    clearInterval(intv);
-                    localStorage.removeItem('bgmiTimerEnd');
-                    bar.style.width = "100%";
-                    document.getElementById('gameLoaderWrap').style.display = 'none';
-                    document.getElementById('finalSuccessMsg').style.display = 'block';
-                    document.getElementById('newOrderBtn').style.display = 'block';
-                    return;
-                }
-
-                const m = Math.floor(secs/60);
-                const s = secs % 60;
-                document.getElementById('deliveryTimer').innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                
-                const total = 420;
-                const pct = ((total - secs)/total) * 100;
-                bar.style.width = pct + "%";
-
-                if(pct > 20 && pct < 40) msg.innerText = "VERIFYING CREDENTIALS...";
-                if(pct > 40 && pct < 70) msg.innerText = "CONNECTING TO SERVER...";
-                if(pct > 70) msg.innerText = "FINALIZING TRANSFER...";
-
-            }, 1000);
-        }
-    }
-
-    function copyOrderId() {
-        navigator.clipboard.writeText(document.getElementById('orderIdText').innerText);
-        showToast("ORDER ID COPIED");
-    }
-
-    // Live Orders Mock
-    setInterval(() => {
-        document.getElementById('liveOrders').innerText = (120 + Math.floor(Math.random()*50)) + " Online";
-    }, 5000);
-
+    setTimeout(showSocialProof, 3000);
   </script>
 </body>
 </html>
