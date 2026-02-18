@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   
-  <title>UCify - Premium BGMI UC Store</title>
-  <link rel="icon" type="image/png" href="favicon.png">
-  <meta name="title" content="UCify - Premium BGMI UC Store | Fast & Secure UC Delivery">
+  <title>UCify - Official BGMI Partner</title>
+  <meta name="title" content="UCify - Official BGMI Partner | Fast & Secure UC Delivery">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -35,21 +34,30 @@
       --radius-sm: 8px;
     }
 
-    /* --- BASE RESET & ANIMATION --- */
+    /* --- BASE RESET & CROSS BROWSER FIXES --- */
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
     body {
       font-family: var(--font-body);
       background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(255, 184, 0, 0.03) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(0, 224, 255, 0.03) 0%, transparent 40%),
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
       display: flex;
       justify-content: center;
+      /* Remove background image from here to fix mobile scroll jump */
+    }
+
+    /* Fixed Background Layer - Solves Browser Inconsistencies */
+    .bg-fixed {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 184, 0, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 224, 255, 0.03) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
     /* --- LAYOUT CONTAINER --- */
@@ -59,6 +67,7 @@
       padding: 20px;
       position: relative;
       z-index: 2;
+      padding-bottom: 50px;
     }
 
     /* --- HEADER CARD --- */
@@ -76,15 +85,13 @@
       box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
     }
 
-    /* Glow effect behind logo */
+    /* Glow effect */
     .top-card::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: 50%;
+      top: -50%; left: 50%;
       transform: translateX(-50%);
-      width: 80%;
-      height: 100%;
+      width: 80%; height: 100%;
       background: radial-gradient(circle, rgba(255,184,0,0.15), transparent 70%);
       pointer-events: none;
     }
@@ -102,7 +109,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* --- TRUST BADGES --- */
+    /* --- PARTNER BADGE (UPDATED) --- */
     .partner-block { margin-top: 15px; }
     .partner-badge {
       display: inline-flex;
@@ -158,43 +165,32 @@
     .stat-number { color: var(--accent); font-weight: 800; font-family: var(--font-display); }
 
     /* --- PROGRESS BAR --- */
-    .progress-wrap {
-      margin-bottom: 25px;
-      padding: 0 10px;
-    }
+    .progress-wrap { margin-bottom: 25px; padding: 0 10px; }
     .progress-container {
       display: flex;
       justify-content: space-between;
       position: relative;
     }
-    /* The Line */
     .progress-container::before {
       content: '';
       position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 2px;
+      top: 50%; left: 0;
+      width: 100%; height: 2px;
       background: var(--surface-border);
       transform: translateY(-50%);
       z-index: 0;
     }
 
     .progress-step {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       background: var(--bg-panel);
       border: 2px solid var(--surface-border);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 14px;
+      font-weight: 700; font-size: 14px;
       color: var(--text-muted);
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       transition: all 0.3s ease;
     }
 
@@ -205,14 +201,11 @@
       background: var(--bg-dark);
       transform: scale(1.1);
     }
-
     .progress-step.completed {
       background: var(--primary);
       border-color: var(--primary);
       color: #000;
     }
-    
-    /* Hide the individual lines from original HTML logic via CSS, we use pseudo element */
     .progress-line { display: none; } 
 
     /* --- STEP CONTENT --- */
@@ -233,11 +226,9 @@
       overflow: hidden;
     }
 
-    /* Cyber Decor Corner */
     .step-content::after {
       content: '';
-      position: absolute;
-      top: 0; right: 0;
+      position: absolute; top: 0; right: 0;
       width: 0; height: 0;
       border-style: solid;
       border-width: 0 40px 40px 0;
@@ -260,12 +251,11 @@
       margin-bottom: 25px;
     }
 
-    /* --- INPUT FIELDS --- */
+    /* --- INPUT FIELDS (Cross Browser Fixed) --- */
     .form-group { margin-bottom: 20px; position: relative; }
     .form-label {
       display: block;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 12px; font-weight: 600;
       text-transform: uppercase;
       color: var(--text-muted);
       margin-bottom: 8px;
@@ -286,6 +276,10 @@
       font-size: 18px;
       letter-spacing: 1px;
       transition: all 0.3s ease;
+      /* Remove Default iOS Styles */
+      -webkit-appearance: none;
+      appearance: none;
+      box-shadow: none;
     }
 
     .form-input:focus {
@@ -296,14 +290,11 @@
     }
     
     .input-icon {
-      position: absolute;
-      right: 15px;
-      top: 50%;
+      position: absolute; right: 15px; top: 50%;
       transform: translateY(-50%);
       color: var(--success);
       font-size: 18px;
-      opacity: 0;
-      transition: 0.3s;
+      opacity: 0; transition: 0.3s;
     }
     .input-icon.check { opacity: 1; }
     
@@ -349,42 +340,32 @@
 
     .pack-uc {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      align-items: center; justify-content: center; gap: 8px;
       font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 700;
-      color: #fff;
+      font-size: 20px; font-weight: 700; color: #fff;
     }
-    
     .uc-icon { width: 24px; height: 24px; }
 
     .pack-price {
       margin-top: 6px;
       color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 14px; font-weight: 600;
     }
     .pack-card.selected .pack-price { color: var(--primary); }
     
     .check-mark {
-      position: absolute;
-      top: 0; right: 0;
+      position: absolute; top: 0; right: 0;
       background: var(--primary);
       color: #000;
       width: 24px; height: 24px;
       border-bottom-left-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-size: 12px;
     }
 
+    /* Completely hide purchased packs */
     .pack-card.purchased {
-      opacity: 0.5;
-      filter: grayscale(1);
-      pointer-events: none;
+      display: none !important;
     }
 
     /* --- BUTTONS --- */
@@ -404,6 +385,7 @@
       transition: all 0.2s;
       position: relative;
       overflow: hidden;
+      -webkit-appearance: none; /* Cross browser fix */
     }
 
     .btn-primary {
@@ -444,11 +426,17 @@
       border-radius: var(--radius-md);
       border: 1px solid var(--surface-border);
       margin: 15px 0;
+      transition: 0.3s;
+    }
+
+    .qr-card.dimmed {
+      opacity: 0.3;
+      pointer-events: none;
+      filter: grayscale(1);
     }
     
     .qr-box {
-      width: 200px;
-      height: 200px;
+      width: 200px; height: 200px;
       margin: 0 auto;
       background: #fff;
       padding: 10px;
@@ -488,6 +476,19 @@
       margin-left: 8px;
     }
     .copy-btn:hover { color: #fff; }
+
+    /* Limit Warning */
+    .limit-warning {
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid var(--error);
+      color: var(--error);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      margin-bottom: 15px;
+      display: none;
+      text-align: left;
+    }
 
     /* File Upload */
     .file-upload-area {
@@ -653,6 +654,8 @@
 </head>
 
 <body>
+  <div class="bg-fixed"></div> <!-- Browser Fix Background -->
+  
   <audio id="bgmAudio" src="bgm.mp3" loop></audio>
   <div class="floating-particles" id="floatingParticles"></div>
 
@@ -674,10 +677,11 @@
     <div class="top-card">
       <div class="header">
         <img src="ucify.webp" alt="UCify Logo" class="logo-img">
-        <p class="tagline">Premium BGMI UC • Lightning-fast delivery</p>
+        <p class="tagline">Official BGMI Partner • Lightning-fast delivery</p>
 
         <div class="partner-block">
-          <div class="partner-badge"><i class="fa-solid fa-certificate"></i> Verified Partner</div>
+          <!-- Removed Icon and changed text as requested -->
+          <div class="partner-badge">Official Partner</div>
         </div>
 
         <div class="trust-strip">
@@ -714,7 +718,8 @@
         <div class="form-group">
           <label class="form-label">BGMI Character ID (UID)</label>
           <div class="form-input-wrapper">
-            <input type="tel" class="form-input" id="uid" placeholder="e.g. 5123456789" maxlength="12" inputmode="numeric">
+            <!-- Removed Placeholder -->
+            <input type="tel" class="form-input" id="uid" maxlength="12" inputmode="numeric">
             <i class="input-icon" id="uidIcon"></i>
           </div>
           <div class="error-message" id="uidError">Invalid UID Format</div>
@@ -723,7 +728,8 @@
         <div class="form-group">
           <label class="form-label">In-Game Name (IGN)</label>
           <div class="form-input-wrapper">
-            <input type="text" class="form-input" id="ign" placeholder="e.g. Mortal" maxlength="20">
+             <!-- Removed Placeholder -->
+            <input type="text" class="form-input" id="ign" maxlength="20">
             <i class="input-icon" id="ignIcon"></i>
           </div>
           <div class="error-message" id="ignError">Name Required</div>
@@ -741,10 +747,18 @@
         <p class="subnote">Top up for <span id="displayUid" style="color:var(--primary);">--</span></p>
 
         <div class="packs-grid" id="packsGrid">
-          <div class="pack-card" data-uc="60" data-price="40">
+          <!-- Changed price to 45 -->
+          <div class="pack-card" data-uc="60" data-price="45">
             <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 60</div>
-            <div class="pack-price">₹40</div>
+            <div class="pack-price">₹45</div>
           </div>
+          
+          <!-- Added new pack: 325 UC for 180 -->
+          <div class="pack-card" data-uc="325" data-price="180">
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 325</div>
+            <div class="pack-price">₹180</div>
+          </div>
+
           <div class="pack-card" data-uc="660" data-price="375">
             <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 660</div>
             <div class="pack-price">₹375</div>
@@ -761,10 +775,7 @@
             <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 8100</div>
             <div class="pack-price">₹3375</div>
           </div>
-          <div class="pack-card" data-uc="16200" data-price="5260">
-             <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 16200</div>
-            <div class="pack-price">₹5260</div>
-          </div>
+          <!-- Removed 16200 UC Pack -->
         </div>
 
         <div class="btn-row">
@@ -784,8 +795,14 @@
           <div style="font-size: 32px; font-weight: 800; color: var(--primary); font-family: var(--font-display); margin-bottom: 20px;">
             <span id="paymentAmount">₹0</span>
           </div>
+          
+          <!-- Warning for high amount -->
+          <div class="limit-warning" id="limitWarning">
+             <i class="fa-solid fa-triangle-exclamation"></i> 
+             <strong>Bank Limit:</strong> Please use "Copy UPI ID" and pay manually for amounts over ₹2000. QR scanning may fail.
+          </div>
 
-          <div class="qr-card">
+          <div class="qr-card" id="qrCard">
             <div class="qr-box">
                <div id="qrLoader" class="qr-skeleton"></div>
                <img id="staticQrImage" src="" alt="Scan QR" style="width:100%; height:100%; object-fit:contain; display:none;">
@@ -808,22 +825,21 @@
           </div>
         </div>
 
-        <form id="orderForm" name="uc-order" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
-          <input type="hidden" name="form-name" value="uc-order">
-          <input type="hidden" name="packuc" id="packuc">
-          <input type="hidden" name="packprice" id="packprice">
-          <input type="hidden" name="bgmiuid" id="bgmiuid">
-          <input type="hidden" name="ign" id="ignfield">
-          <input type="hidden" name="time" id="timefield">
-          <input type="hidden" name="orderid" id="orderidfield">
-
+        <!-- Replaced Netlify form with standard form for Web3Forms/AJAX -->
+        <form id="orderForm" style="margin-top: 20px;">
+          <!-- IMPORTANT: You must generate a key at web3forms.com and paste it below -->
+          <!-- We are using JavaScript to submit this, but this input is here just in case -->
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE"> 
+          
+          <input type="hidden" name="subject" value="New UC Order">
+          
           <div class="file-upload-area" id="uploadArea">
             <i class="fas fa-cloud-arrow-up" id="uploadIcon" style="font-size: 32px; color: var(--text-muted); margin-bottom: 10px;"></i>
             <i class="fas fa-check-circle upload-success-icon" id="uploadSuccessIcon" style="display:none; font-size: 40px; color: var(--success);"></i>
             <div id="uploadText" style="font-weight: 600; font-size: 14px;">Upload Payment Screenshot</div>
             <div class="hint" id="uploadHint" style="font-size: 11px; color: #666;">Tap to browse or drag file here</div>
             
-            <input type="file" id="screenshot" name="paymentscreenshot" accept="image/*" style="display:none;" required>
+            <input type="file" id="screenshot" accept="image/*" style="display:none;" required>
             <img id="screenshotPreview">
             <div class="upload-progress" id="uploadProgress"></div>
           </div>
@@ -881,9 +897,19 @@
   </div>
 
   <script>
-    // --- GOOGLE SHEETS BACKEND CONFIGURATION ---
+    // --- IMPORTANT CONFIGURATION ---
+    
+    // 1. WEB3FORMS KEY (For Free Emails):
+    // Go to https://web3forms.com/, enter your email, and they will send you an Access Key.
+    // Replace the string below with your key.
+    const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE"; 
+
+    // 2. GOOGLE SHEETS URL (For UID History):
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxZmmaWlqrx9ydYVfO3XkZKh25Oxa_k0XiLNBPbEVEBOwZTlE2qPxF6OEoU-I9oJzLj/exec"; 
 
+    const UPIVPA = "ucify@ptaxis";
+    
+    // --- LOGIC STARTS ---
     let currentStep = 1;
     let selectedPack = null;
     let screenshotFile = null;
@@ -893,13 +919,9 @@
     let currentUid = "";
     let currentIgn = "";
 
-    const UPIVPA = "ucify@ptaxis";
-    const UPI_NAME = "UCify";
-
-    // --- BGM AUDIO SETUP ---
+    // BGM Setup
     const bgm = document.getElementById('bgmAudio');
     bgm.volume = 0.3; 
-
     function initAudio() {
         if(bgm.paused) {
             bgm.play().catch(e => console.log("Audio waiting for interaction"));
@@ -912,7 +934,7 @@
         if (document.hidden) { bgm.pause(); } else { bgm.play().catch(e => console.log("Waiting")); }
     });
 
-    // Modified particle init for CSS based system
+    // Particles
     function initParticles(){
       const container = document.getElementById('floatingParticles');
       for(let i = 0; i < 15; i++){
@@ -936,8 +958,6 @@
           confetti.style.left = Math.random() * 100 + '%';
           confetti.style.top = '-10px';
           confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          
-          // CSS animation for falling
           confetti.animate([
             { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
             { transform: `translate(${Math.random()*100 - 50}px, 100vh) rotate(720deg)`, opacity: 0 }
@@ -945,7 +965,6 @@
             duration: 2000 + Math.random() * 2000,
             easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
           });
-          
           document.body.appendChild(confetti);
           setTimeout(() => confetti.remove(), 4000);
         }, i * 30);
@@ -957,9 +976,8 @@
       document.getElementById('next1').disabled = true;
     });
 
-    const gamingNames = [ "亗『MÂFÎÂ亗", "TOXIC彡KD", "77・playzYT", "SK๛play๛Live", "千ムＩＲＹＹ", "IQōShāDøwW", "LÙÇÍFËR〆", "Mâhïmâ", "DEMØN丨DEEPAK", "亗CZxAnurag亗", "FRSTxZGOD", "FGxWONGPLAYzzz", "GÕD〤RÚSHÈR", "IGメABHAY", "MR々ŁEGENÐ", "VÌNNÍ乂PLAYZ", "KGF๛OP亗×", "ROYALツKUNAL20", "『RÁGNÁR』", "GLXY丨DANGER", "SHADOW๛RIVEN", "會DAKU父", "LEGEND丶OPP", "SAʀDAʀJi", "HAWK么HARSH", "ZMCxSHREY", "K4气KALAAKAR", "『AIMGOD』1", "T乛Rex乛RAVAN", "Ē・ＶＥＮＯＭ", "๛『Vëgêtå", "4A乛M丨SNOW", "٭ɞALPHAʚ٭", "im๛PANDA", "SGLxShivam", "乛GameīxīOM", "・Ｄ卄マＵＶ・", "『EPC』KRXSNA", "ＦｒＯｚｅＮ", "๛Ðʀʌɢo", "ＹＡＳＨīě", "ＳＨＵ及Ｈ", "XT个『Farhan』", "D£ATH๛SLAYER", "『LAKSHYÀ』", "中ツWARRIORYT", "Vns๛Rahul", "EQZxJOKERyt", "ReFLeXツVENOM", "冬ＧＡＢＢＡＲ" ];
-
-    const ucPacksList = ["60 UC", "660 UC", "1800 UC", "3850 UC", "8100 UC", "16200 UC"];
+    const gamingNames = [ "亗『MÂFÎÂ亗", "TOXIC彡KD", "77・playzYT", "SK๛play๛Live", "千ムＩＲＹＹ" ];
+    const ucPacksList = ["60 UC", "325 UC", "660 UC", "1800 UC", "3850 UC"];
 
     function showSocialProof(){
       const randomName = gamingNames[Math.floor(Math.random() * gamingNames.length)];
@@ -971,7 +989,6 @@
       el.style.display = 'flex';
       setTimeout(() => { el.style.display = 'none'; }, 5000);
     }
-
     setInterval(() => { if(Math.random() > 0.5) showSocialProof(); }, 10000);
 
     function getIndiaHour(){
@@ -997,7 +1014,7 @@
     function startQRTimer(){
       const display = document.getElementById('timerDisplay');
       const timerEl = document.getElementById('qrTimer');
-      timerEl.style.display = 'block'; // Adjusted for new layout (block instead of flex)
+      timerEl.style.display = 'block'; 
        
       if(qrTimer) clearInterval(qrTimer);
       timerSeconds = 900;
@@ -1044,6 +1061,7 @@
       document.getElementById(`step${step}`).classList.add('active');
       currentStep = step;
       updateProgress();
+      window.scrollTo(0,0);
     }
 
     function updateProgress(){
@@ -1060,6 +1078,7 @@
     const ignIcon = document.getElementById('ignIcon');
     const uidError = document.getElementById('uidError');
 
+    // PACK SELECTION LOGIC
     document.querySelectorAll('.pack-card').forEach(card => {
         card.addEventListener('click', function(){
             if(this.classList.contains('purchased')) return;
@@ -1091,7 +1110,7 @@
       const len = this.value.length;
       const isValid = len >= 9 && len <= 12;
       if(isValid){
-          uidInput.style.borderColor = "var(--success)"; // Inline style for override
+          uidInput.style.borderColor = "var(--success)";
           uidIcon.className = 'input-icon check fas fa-check-circle';
           uidError.classList.remove('show');
           triggerHaptic('light');
@@ -1135,12 +1154,16 @@
         document.getElementById('displayUid').textContent = currentUid;
 
         const purchasedPacks = await fetchPurchasedPacks(currentUid);
-         
+          
         document.querySelectorAll('.pack-card').forEach(card => {
+            // Reset state
             card.classList.remove('purchased', 'selected');
             card.querySelector('.check-mark')?.remove();
+            card.style.display = ""; // Reset display
+
+            // Hide purchased packs
             if(purchasedPacks.includes(card.dataset.uc)){
-                card.classList.add('purchased');
+                card.classList.add('purchased'); // CSS will handle display:none
             }
         });
 
@@ -1153,29 +1176,45 @@
 
     document.getElementById('next2').onclick = function(){
       const amountEl = document.getElementById('paymentAmount');
-      amountEl.textContent = '₹' + selectedPack.price;
+      const price = parseInt(selectedPack.price);
+      amountEl.textContent = '₹' + price;
       orderId = generateOrderId();
       document.getElementById('upiIdText').textContent = UPIVPA;
        
       const qrImage = document.getElementById('staticQrImage');
       const loader = document.getElementById('qrLoader');
+      const limitWarning = document.getElementById('limitWarning');
+      const qrCard = document.getElementById('qrCard');
        
       qrImage.style.display = 'none';
-      loader.style.display = 'block';
-
-      const qrFilename = `${selectedPack.price}qr.webp`;
-      qrImage.src = qrFilename;
-
-      qrImage.onload = function(){
-          loader.style.display = 'none';
+      
+      // MERCHANT LIMIT LOGIC
+      if (price > 2000) {
+          // Show warning, dim QR
+          limitWarning.style.display = 'block';
+          qrCard.classList.add('dimmed');
+          // We still load the QR but visually discourage it
+          loader.style.display = 'none'; 
           qrImage.style.display = 'block';
-          startQRTimer();
-      };
+          qrImage.src = `${price}qr.webp`; // Assume image exists
+      } else {
+          // Normal Flow
+          limitWarning.style.display = 'none';
+          qrCard.classList.remove('dimmed');
+          loader.style.display = 'block';
+          const qrFilename = `${price}qr.webp`;
+          qrImage.src = qrFilename;
 
-      qrImage.onerror = function(){
-          loader.style.display = 'none';
-          alert(`Image missing: ${qrFilename}. Please upload it to your repo.`);
-      };
+          qrImage.onload = function(){
+             loader.style.display = 'none';
+             qrImage.style.display = 'block';
+             startQRTimer();
+          };
+          qrImage.onerror = function(){
+             loader.style.display = 'none';
+             alert(`Image missing: ${qrFilename}. Please upload it to your repo.`);
+          };
+      }
 
       showStep(3);
     };
@@ -1285,50 +1324,74 @@
         }, 1000);
     }
 
+    // --- NEW FORM SUBMISSION (BYPASS NETLIFY) ---
     document.getElementById('orderForm').onsubmit = async (e) => {
       e.preventDefault();
+      
       if(!screenshotFile) {
           alert("Please upload a payment screenshot first.");
           return;
       }
+      
+      if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE") {
+        alert("Developer Error: Please add Web3Forms Access Key in the code.");
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      
       const time = new Date().toLocaleString('en-IN', { timeZone:'Asia/Kolkata' });
-       
-      document.getElementById('packuc').value = selectedPack.uc;
-      document.getElementById('packprice').value = selectedPack.price;
-      document.getElementById('bgmiuid').value = currentUid;
-      document.getElementById('ignfield').value = currentIgn;
-      document.getElementById('timefield').value = time;
-      document.getElementById('orderidfield').value = orderId;
+
+      // Create Form Data for Web3Forms
+      const formData = new FormData();
+      formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+      formData.append("Order ID", orderId);
+      formData.append("UID", currentUid);
+      formData.append("IGN", currentIgn);
+      formData.append("Pack UC", selectedPack.uc);
+      formData.append("Price", "₹" + selectedPack.price);
+      formData.append("Time", time);
+      
+      // Convert image to base64 or upload directly (Web3Forms handles file uploads)
+      formData.append("Screenshot", screenshotFile);
 
       try {
-        const res = await fetch('/', { method: 'POST', body: new FormData(e.target) });
-         
-        if(res.ok) {
+        // 1. Send Email via Web3Forms
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await res.json();
+
+        if(result.success) {
+          // 2. Add to Google Sheet (Optional - for history tracking)
           if(APPS_SCRIPT_URL) {
              try {
                 const sheetData = { uid: currentUid, uc: selectedPack.uc };
-                await fetch(APPS_SCRIPT_URL, {
+                fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors', 
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(sheetData)
                 });
-             } catch(sheetErr) { console.log(sheetErr); }
+             } catch(err) { console.log("Sheet update failed", err); }
           }
 
+          // UI Success
           document.getElementById('orderIdText').textContent = orderId;
           document.getElementById('receipt-pack').textContent = selectedPack.uc + " UC";
           document.getElementById('receipt-amount').textContent = "₹" + selectedPack.price;
           document.getElementById('receipt-uid').textContent = currentUid;
           document.getElementById('receipt-ign').textContent = currentIgn;
           document.getElementById('receipt-time').textContent = time;
+          
           if(qrTimer) clearInterval(qrTimer);
-           
+            
           showStep(4);
           triggerHaptic('success');
-           
+            
           localStorage.removeItem('bgmiTimerEnd');
 
           const currentHour = getIndiaHour();
@@ -1343,15 +1406,16 @@
               document.getElementById('nightMessage').style.display = 'none';
               startDeliveryTimer();
           }
-           
-        } else throw new Error();
+
+        } else {
+          throw new Error(result.message);
+        }
       } catch(err) {
-        alert("Submission failed. Try again.");
+        alert("Order submission failed: " + err);
         submitBtn.disabled = false;
         submitBtn.textContent = "Confirm Order";
       }
     };
-    setTimeout(showSocialProof, 3000);
   </script>
 </body>
 </html>
