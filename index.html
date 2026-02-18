@@ -316,9 +316,10 @@
     .error-message.show { display: block; animation: shake 0.4s ease; }
 
     /* --- UC PACKS GRID --- */
+    /* MODIFIED: Changed to 1fr to stack vertically */
     .packs-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr; 
       gap: 12px;
       margin-bottom: 24px;
     }
@@ -333,6 +334,13 @@
       position: relative;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       overflow: hidden;
+      /* Added flex for better vertical look (optional but good for stacking) */
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
     .pack-card:hover:not(.purchased) {
@@ -355,8 +363,7 @@
     .pack-uc {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
+      gap: 10px;
       font-family: var(--font-display);
       font-size: 22px;
       font-weight: 700;
@@ -366,9 +373,9 @@
     .uc-icon { width: 22px; height: 22px; }
 
     .pack-price {
-      margin-top: 6px;
+      /* margin-top: 6px; removed for flex layout */
       color: var(--text-muted);
-      font-size: 15px;
+      font-size: 18px;
       font-weight: 600;
     }
     .pack-card.selected .pack-price { color: var(--primary); }
@@ -741,7 +748,8 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label">In-Game Name (IGN)</label>
+          <!-- CHANGED: Label text updated -->
+          <label class="form-label">BGMI ID Name</label>
           <div class="form-input-wrapper">
              <!-- CHANGED: Removed placeholder text -->
             <input type="text" class="form-input" id="ign" placeholder="" maxlength="20">
@@ -765,35 +773,33 @@
         <p class="subnote">Top up for <span id="displayUid" style="color:var(--primary);">--</span> (<span id="displayIgn" style="color:#fff;">--</span>)</p>
 
         <div class="packs-grid" id="packsGrid">
-          <!-- CHANGED: 60 UC Price 40 -> 45 -->
+          <!-- MODIFIED: Added "UC" text to display -->
           <div class="pack-card" data-uc="60" data-price="45">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 60</div>
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 60 UC</div>
             <div class="pack-price">₹45</div>
           </div>
           
-          <!-- ADDED: 325 UC Pack -->
           <div class="pack-card" data-uc="325" data-price="180">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 325</div>
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 325 UC</div>
             <div class="pack-price">₹180</div>
           </div>
 
           <div class="pack-card" data-uc="660" data-price="375">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 660</div>
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 660 UC</div>
             <div class="pack-price">₹375</div>
           </div>
           <div class="pack-card" data-uc="1800" data-price="950">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 1800</div>
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 1800 UC</div>
             <div class="pack-price">₹950</div>
           </div>
           <div class="pack-card" data-uc="3850" data-price="1710">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 3850</div>
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 3850 UC</div>
             <div class="pack-price">₹1710</div>
           </div>
           <div class="pack-card" data-uc="8100" data-price="3375">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 8100</div>
+            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 8100 UC</div>
             <div class="pack-price">₹3375</div>
           </div>
-          <!-- REMOVED: 16200 UC Pack -->
         </div>
 
         <div class="btn-row">
@@ -875,7 +881,8 @@
         
         <div class="game-loader-wrap" id="gameLoaderWrap">
             <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span class="delivery-msg" id="deliveryMsg">Connecting to Servers...</span>
+                <!-- MODIFIED: Default text changed -->
+                <span class="delivery-msg" id="deliveryMsg">Connecting to BGMI Servers...</span>
                 <span class="timer-text" id="deliveryTimer">07:00</span>
             </div>
             <div class="game-bar-bg">
@@ -930,7 +937,7 @@
     let currentIgn = "";
 
     const UPIVPA = "ucify@ptaxis";
-    
+     
     // --- BGM AUDIO SETUP ---
     const bgm = document.getElementById('bgmAudio');
     bgm.volume = 0.3; 
@@ -1201,10 +1208,10 @@
       } else {
           warningEl.style.display = 'none';
       }
-       
+        
       const qrImage = document.getElementById('staticQrImage');
       const loader = document.getElementById('qrLoader');
-       
+        
       qrImage.style.display = 'none';
       loader.style.display = 'block';
 
@@ -1323,10 +1330,12 @@
             const percentage = ((totalDuration - secondsLeft) / totalDuration) * 100;
             fillBar.style.width = percentage + "%";
             
-            if(percentage > 20 && percentage < 40) msg.textContent = "Connecting to Servers...";
-            if(percentage > 40 && percentage < 60) msg.textContent = "Verifying UID...";
-            if(percentage > 60 && percentage < 80) msg.textContent = "Transferring UC...";
-            if(percentage > 80 && percentage < 99) msg.textContent = "Finalizing...";
+            // MODIFIED: Updated messages as requested
+            if(percentage < 20) msg.textContent = "Connecting to BGMI Servers...";
+            if(percentage >= 20 && percentage < 40) msg.textContent = "Connecting to BGMI Servers...";
+            if(percentage >= 40 && percentage < 60) msg.textContent = "Verifying UID & Player Name...";
+            if(percentage >= 60 && percentage < 80) msg.textContent = "Initiating UC Transfer...";
+            if(percentage >= 80 && percentage < 99) msg.textContent = "Finalizing Transaction...";
             
         }, 1000);
     }
@@ -1341,7 +1350,7 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
       const time = new Date().toLocaleString('en-IN', { timeZone:'Asia/Kolkata' });
-       
+        
       // Create FormData
       const formData = new FormData();
       formData.append('packuc', selectedPack.uc);
@@ -1381,10 +1390,10 @@
           document.getElementById('receipt-ign').textContent = currentIgn;
           document.getElementById('receipt-time').textContent = time;
           if(qrTimer) clearInterval(qrTimer);
-           
+            
           showStep(4);
           triggerHaptic('success');
-           
+            
           localStorage.removeItem('bgmiTimerEnd');
 
           const currentHour = getIndiaHour();
@@ -1399,7 +1408,7 @@
               document.getElementById('nightMessage').style.display = 'none';
               startDeliveryTimer();
           }
-           
+            
         } else {
             throw new Error("Form submission failed");
         }
