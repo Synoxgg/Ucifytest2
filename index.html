@@ -7,9 +7,9 @@
   <title>UCify - Premium BGMI UC Store</title>
   <meta name="title" content="UCify - Premium BGMI UC Store | Fast & Secure UC Delivery">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
       --primary-glow: rgba(255, 184, 0, 0.6);
       --accent: #00E0FF; /* Tech Cyan */
       --bg-dark: #050507;
-      --bg-panel: #0e0e12;
+      --bg-panel: rgba(14, 14, 18, 0.65);
       --surface: rgba(255, 255, 255, 0.05);
       --surface-border: rgba(255, 255, 255, 0.12);
       --text-main: #ffffff;
@@ -43,31 +43,121 @@
     body {
       font-family: var(--font-body);
       background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 0% 0%, rgba(255, 184, 0, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(0, 224, 255, 0.08) 0%, transparent 50%);
       color: var(--text-main);
-      min-height: 100vh;
       overflow-x: hidden;
+      /* Made body tall to enable scrolling for the video effect */
+      height: 350vh; 
+    }
+
+    /* --- VIDEO BACKGROUND --- */
+    .video-background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      background: var(--bg-dark); /* Fallback */
+    }
+
+    #bgVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6; /* Darkened to make UI pop */
+      filter: contrast(1.1) saturate(1.2);
+    }
+
+    /* Gradient overlay to make text readable */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(5,5,7,0.8) 0%, rgba(5,5,7,0.3) 50%, rgba(5,5,7,0.9) 100%);
+      z-index: -1;
+    }
+
+    /* --- HERO SCROLL SECTION --- */
+    .hero-section {
+      height: 150vh; /* Takes up first part of scroll */
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 50px;
+      font-weight: 800;
+      background: linear-gradient(to right, #fff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+
+    .scroll-indicator {
+      margin-top: 40px;
+      animation: bounce 2s infinite;
+      color: var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .scroll-indicator i { font-size: 24px; }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(10px); }
+      60% { transform: translateY(5px); }
     }
 
     /* --- LAYOUT CONTAINER --- */
+    .main-content-wrapper {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky; /* Keeps it in view once scrolled down */
+      top: 0;
+      padding: 20px;
+      opacity: 0; /* Hidden initially, revealed on scroll */
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 10;
+    }
+
+    .main-content-wrapper.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .container {
       width: 100%;
       max-width: 480px;
-      padding: 20px;
-      position: relative;
-      z-index: 2;
       padding-bottom: 50px;
     }
 
-    /* --- HEADER CARD --- */
+    /* --- UI ELEMENTS (From your original code) --- */
     .top-card {
-      background: rgba(14, 14, 18, 0.7);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: var(--bg-panel);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       border: 1px solid var(--surface-border);
       border-radius: var(--radius-lg);
       padding: 30px 20px;
@@ -75,142 +165,73 @@
       margin-bottom: 25px;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
+      box-shadow: 0 20px 50px -10px rgba(0,0,0,0.8);
     }
 
-    /* Enhanced Glow */
     .top-card::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60%;
-      height: 100%;
+      top: -50%; left: 50%; transform: translateX(-50%);
+      width: 60%; height: 100%;
       background: radial-gradient(circle, rgba(255,184,0,0.2), transparent 70%);
-      pointer-events: none;
-      filter: blur(40px);
+      pointer-events: none; filter: blur(40px);
     }
 
     .logo-img {
-      max-width: 160px;
-      height: auto;
+      max-width: 160px; height: auto;
       filter: drop-shadow(0 0 15px rgba(255,184,0,0.4));
       margin-bottom: 5px;
     }
 
-    .tagline {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 5px;
-      letter-spacing: 0.5px;
-    }
+    .tagline { color: var(--text-muted); font-size: 13px; margin-top: 5px; letter-spacing: 0.5px; }
 
-    /* --- TRUST BADGES --- */
     .partner-block { margin-top: 15px; }
-    
     .partner-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-flex; align-items: center; gap: 8px;
       background: linear-gradient(90deg, rgba(255, 184, 0, 0.15), rgba(255, 184, 0, 0.05));
       border: 1px solid rgba(255, 184, 0, 0.4);
-      color: var(--primary);
-      padding: 6px 16px;
-      border-radius: 4px; /* Squarer look for "Official" */
-      font-family: var(--font-display);
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 13px;
-      letter-spacing: 1.5px;
-      box-shadow: 0 0 10px rgba(255,184,0,0.1);
+      color: var(--primary); padding: 6px 16px;
+      border-radius: 4px; font-family: var(--font-display);
+      font-weight: 700; text-transform: uppercase; font-size: 13px;
+      letter-spacing: 1.5px; box-shadow: 0 0 10px rgba(255,184,0,0.1);
     }
 
-    .trust-strip {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 15px;
-    }
-
+    .trust-strip { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
     .trust-pill {
-      font-size: 11px;
-      color: var(--text-muted);
-      background: var(--surface);
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 11px; color: var(--text-muted); background: var(--surface);
+      padding: 6px 12px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; gap: 6px;
       border: 1px solid var(--surface-border);
+      backdrop-filter: blur(10px);
     }
 
-    .live-stats {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 15px;
-    }
-    
+    .live-stats { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
     .stat-badge {
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-      background: rgba(0, 224, 255, 0.05);
-      border: 1px solid rgba(0, 224, 255, 0.2);
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
+      font-size: 12px; font-weight: 600; color: #fff;
+      background: rgba(0, 224, 255, 0.05); border: 1px solid rgba(0, 224, 255, 0.2);
+      padding: 6px 12px; border-radius: var(--radius-sm);
     }
     .stat-number { color: var(--accent); font-weight: 800; font-family: var(--font-display); }
 
     /* --- PROGRESS BAR --- */
     .progress-wrap { margin-bottom: 25px; padding: 0 10px; }
-    .progress-container {
-      display: flex;
-      justify-content: space-between;
-      position: relative;
-    }
-    /* The Line */
+    .progress-container { display: flex; justify-content: space-between; position: relative; }
     .progress-container::before {
-      content: '';
-      position: absolute;
-      top: 50%; left: 0;
-      width: 100%; height: 2px;
-      background: #333;
-      transform: translateY(-50%);
-      z-index: 0;
+      content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px;
+      background: rgba(255,255,255,0.1); transform: translateY(-50%); z-index: 0;
     }
-
     .progress-step {
-      width: 32px; height: 32px;
-      background: var(--bg-panel);
-      border: 2px solid #333;
-      border-radius: 50%;
-      display: flex;
-      align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 14px;
-      color: #666;
-      position: relative;
-      z-index: 1;
-      transition: all 0.3s ease;
+      width: 32px; height: 32px; background: rgba(14,14,18,0.9);
+      border: 2px solid #444; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-family: var(--font-display);
+      font-weight: 700; font-size: 14px; color: #888; position: relative;
+      z-index: 1; transition: all 0.3s ease; backdrop-filter: blur(5px);
     }
-
     .progress-step.active {
-      border-color: var(--primary);
-      color: var(--primary);
-      box-shadow: 0 0 10px rgba(255,184,0,0.3);
-      background: var(--bg-dark);
-      transform: scale(1.1);
+      border-color: var(--primary); color: var(--primary);
+      box-shadow: 0 0 15px rgba(255,184,0,0.4); background: var(--bg-dark); transform: scale(1.1);
     }
-
-    .progress-step.completed {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #000;
-    }
-    
+    .progress-step.completed { background: var(--primary); border-color: var(--primary); color: #000; }
     .progress-line { display: none; } 
 
     /* --- STEP CONTENT --- */
@@ -223,463 +244,173 @@
     }
 
     .step-content {
-      background: var(--bg-panel);
-      border: 1px solid var(--surface-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      background: var(--bg-panel); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--surface-border); border-radius: var(--radius-lg);
+      padding: 24px; position: relative; overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
 
-    /* Cyber Decor */
     .step-content::before {
         content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-        background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        opacity: 0.5;
+        background: linear-gradient(90deg, transparent, var(--primary), transparent); opacity: 0.5;
     }
 
     .step-title {
-      font-family: var(--font-display);
-      font-size: 26px;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-      /* FIX FOR BROWSER COMPATIBILITY: Fallback color + webkit */
-      color: #fff; 
-      background: linear-gradient(to right, #fff, #b0b0b0);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      /* If browser doesn't support clip, it falls back to white */
+      font-family: var(--font-display); font-size: 26px; text-transform: uppercase; margin-bottom: 5px;
+      color: #fff; background: linear-gradient(to right, #fff, #b0b0b0);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-    
-    .subnote {
-      color: var(--text-muted);
-      font-size: 14px;
-      margin-bottom: 25px;
-    }
+    .subnote { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; }
 
     /* --- INPUT FIELDS --- */
     .form-group { margin-bottom: 20px; position: relative; }
     .form-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      letter-spacing: 1px;
+      display: block; font-size: 12px; font-weight: 600; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 8px; letter-spacing: 1px;
     }
-    
     .form-input-wrapper { position: relative; }
-    
     .form-input {
-      width: 100%;
-      /* FIX FOR VISIBILITY: Lighter background */
-      background: rgba(255, 255, 255, 0.07); 
-      border: 1px solid var(--surface-border);
-      color: #fff;
-      padding: 16px;
-      padding-right: 40px;
-      border-radius: var(--radius-md);
-      font-family: var(--font-display);
-      font-size: 18px;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
+      width: 100%; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--surface-border);
+      color: #fff; padding: 16px; padding-right: 40px; border-radius: var(--radius-md);
+      font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; transition: all 0.3s ease;
     }
-
-    /* Remove placeholder opacity issue in some browsers */
-    .form-input::placeholder { color: rgba(255,255,255,0.2); }
-
     .form-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(255,184,0,0.1);
-      background: rgba(255, 255, 255, 0.1);
+      outline: none; border-color: var(--primary); box-shadow: 0 0 15px rgba(255,184,0,0.2); background: rgba(0, 0, 0, 0.6);
     }
-    
-    .input-icon {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--success);
-      font-size: 18px;
-      opacity: 0;
-      transition: 0.3s;
-    }
+    .input-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--success); font-size: 18px; opacity: 0; transition: 0.3s; }
     .input-icon.check { opacity: 1; }
-    
-    .error-message {
-      color: var(--error);
-      font-size: 12px;
-      margin-top: 6px;
-      display: none;
-    }
+    .error-message { color: var(--error); font-size: 12px; margin-top: 6px; display: none; }
     .error-message.show { display: block; animation: shake 0.4s ease; }
 
     /* --- UC PACKS GRID --- */
-    /* MODIFIED: Changed to 1fr to stack vertically */
-    .packs-grid {
-      display: grid;
-      grid-template-columns: 1fr; 
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
+    .packs-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 24px; }
     .pack-card {
-      background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.4) 100%);
-      border: 1px solid var(--surface-border);
-      border-radius: var(--radius-md);
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      overflow: hidden;
-      /* Added flex for better vertical look (optional but good for stacking) */
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding-left: 20px;
-      padding-right: 20px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.6) 100%);
+      border: 1px solid var(--surface-border); border-radius: var(--radius-md);
+      cursor: pointer; position: relative; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden; display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+      padding: 15px 20px; backdrop-filter: blur(10px);
     }
-
     .pack-card:hover:not(.purchased) {
-      transform: translateY(-3px);
-      border-color: rgba(255,184,0,0.4);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transform: translateY(-3px); border-color: rgba(255,184,0,0.5); box-shadow: 0 10px 20px rgba(0,0,0,0.4);
     }
-
     .pack-card.selected {
-      background: rgba(255, 184, 0, 0.1);
-      border: 1px solid var(--primary);
-      box-shadow: 0 0 20px rgba(255,184,0,0.15);
+      background: rgba(255, 184, 0, 0.15); border: 1px solid var(--primary); box-shadow: 0 0 20px rgba(255,184,0,0.2);
     }
-    
-    /* Logic change: Purchased packs are hidden */
-    .pack-card.purchased {
-      display: none !important;
-    }
+    .pack-card.purchased { display: none !important; }
 
-    .pack-uc {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-    }
-    
-    .uc-icon { width: 22px; height: 22px; }
-
-    .pack-price {
-      /* margin-top: 6px; removed for flex layout */
-      color: var(--text-muted);
-      font-size: 18px;
-      font-weight: 600;
-    }
+    .pack-uc { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #fff; }
+    .uc-icon { width: 22px; height: 22px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));}
+    .pack-price { color: var(--text-muted); font-size: 18px; font-weight: 600; }
     .pack-card.selected .pack-price { color: var(--primary); }
-    
     .check-mark {
-      position: absolute;
-      top: 0; right: 0;
-      background: var(--primary);
-      color: #000;
-      width: 24px; height: 24px;
-      border-bottom-left-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
+      position: absolute; top: 0; right: 0; background: var(--primary); color: #000;
+      width: 24px; height: 24px; border-bottom-left-radius: 10px; display: flex;
+      align-items: center; justify-content: center; font-size: 12px; box-shadow: -2px 2px 10px rgba(0,0,0,0.3);
     }
 
     /* --- BUTTONS --- */
     .btn-row { display: flex; gap: 10px; margin-top: 20px; }
-    
     .btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: var(--radius-md);
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 16px;
-      text-transform: uppercase;
-      cursor: pointer;
-      letter-spacing: 1px;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
+      width: 100%; padding: 16px; border: none; border-radius: var(--radius-md);
+      font-family: var(--font-display); font-weight: 700; font-size: 16px;
+      text-transform: uppercase; cursor: pointer; letter-spacing: 1px; transition: all 0.2s; position: relative; overflow: hidden;
     }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #000;
-      box-shadow: 0 4px 15px rgba(255,184,0,0.3);
-    }
-    
-    .btn-primary:hover:not(:disabled) {
-      background: #ffc42e;
-      transform: translateY(-2px);
-      box-shadow: 0 0 25px rgba(255,184,0,0.6);
-    }
-    
-    .btn-primary:disabled {
-      background: #333;
-      color: #666;
-      box-shadow: none;
-      cursor: not-allowed;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid var(--surface-border);
-      color: var(--text-muted);
-    }
-    .btn-secondary:hover {
-      border-color: #fff;
-      color: #fff;
-    }
+    .btn-primary { background: var(--primary); color: #000; box-shadow: 0 4px 15px rgba(255,184,0,0.3); }
+    .btn-primary:hover:not(:disabled) { background: #ffc42e; transform: translateY(-2px); box-shadow: 0 0 25px rgba(255,184,0,0.6); }
+    .btn-primary:disabled { background: rgba(255,255,255,0.1); color: #666; box-shadow: none; cursor: not-allowed; }
+    .btn-secondary { background: rgba(0,0,0,0.4); border: 1px solid var(--surface-border); color: #fff; backdrop-filter: blur(5px); }
+    .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
 
     /* --- PAYMENT SECTION (STEP 3) --- */
     .payment-section { text-align: center; }
-    
     .qr-card {
-      background: #000;
-      padding: 20px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--surface-border);
-      margin: 15px 0;
+      background: rgba(0,0,0,0.6); padding: 20px; border-radius: var(--radius-md);
+      border: 1px solid var(--surface-border); margin: 15px 0;
     }
-    
-    .qr-box {
-      width: 200px;
-      height: 200px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    
-    .qr-skeleton {
-      width: 100%; height: 100%;
-      background: #222;
-      animation: pulse 1.5s infinite;
-    }
-
-    .qr-timer {
-      color: var(--error);
-      font-family: var(--font-display);
-      font-weight: 600;
-      margin: 10px 0;
-    }
-
-    .upi-id {
-      display: inline-block;
-      background: #1a1a1a;
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: 1px dashed #444;
-      color: var(--primary);
-      font-family: monospace;
-      margin: 5px 0;
-      font-size: 14px;
-    }
-
-    .copy-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 14px;
-      margin-left: 8px;
-    }
+    .qr-box { width: 200px; height: 200px; margin: 0 auto; background: #fff; padding: 10px; border-radius: 10px; }
+    .qr-skeleton { width: 100%; height: 100%; background: #222; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+    .qr-timer { color: var(--error); font-family: var(--font-display); font-weight: 600; margin: 10px 0; }
+    .upi-id { display: inline-block; background: #1a1a1a; padding: 8px 12px; border-radius: 6px; border: 1px dashed #555; color: var(--primary); font-family: monospace; margin: 5px 0; font-size: 14px; }
+    .copy-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; margin-left: 8px; }
     .copy-btn:hover { color: #fff; }
 
     /* File Upload */
     .file-upload-area {
-      border: 2px dashed var(--surface-border);
-      background: rgba(255,255,255,0.02);
-      border-radius: var(--radius-md);
-      padding: 30px;
-      text-align: center;
-      transition: 0.3s;
-      cursor: pointer;
+      border: 2px dashed var(--surface-border); background: rgba(0,0,0,0.4);
+      border-radius: var(--radius-md); padding: 30px; text-align: center; transition: 0.3s; cursor: pointer;
     }
-    .file-upload-area:hover, .file-upload-area.dragover {
-      border-color: var(--primary);
-      background: rgba(255,184,0,0.05);
-    }
-    
-    #screenshotPreview {
-      max-width: 100%;
-      margin-top: 15px;
-      border-radius: 8px;
-      display: none;
-      border: 1px solid var(--surface-border);
-    }
-    
-    .upload-progress {
-      height: 3px;
-      background: var(--primary);
-      width: 0%;
-      margin-top: 10px;
-      transition: width 0.1s;
-    }
+    .file-upload-area:hover, .file-upload-area.dragover { border-color: var(--primary); background: rgba(255,184,0,0.05); }
+    #screenshotPreview { max-width: 100%; margin-top: 15px; border-radius: 8px; display: none; border: 1px solid var(--surface-border); }
+    .upload-progress { height: 3px; background: var(--primary); width: 0%; margin-top: 10px; transition: width 0.1s; }
 
     /* --- SUCCESS (STEP 4) --- */
     .success-screen { text-align: center; }
-    .success-icon { 
-      font-size: 60px; 
-      color: var(--success); 
-      margin-bottom: 20px;
-      text-shadow: 0 0 30px rgba(0,255,157,0.5);
-      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+    .success-icon { font-size: 60px; color: var(--success); margin-bottom: 20px; text-shadow: 0 0 30px rgba(0,255,157,0.5); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     @keyframes popIn { 0%{transform: scale(0);} 100%{transform: scale(1);} }
+    .success-title { font-family: var(--font-display); font-size: 28px; color: #fff; margin-bottom: 20px; }
     
-    .success-title {
-      font-family: var(--font-display);
-      font-size: 28px;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-
-    /* Game Loader Bar */
     .game-loader-wrap { margin: 30px 0; }
-    .game-bar-bg {
-      height: 8px;
-      background: #222;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 10px;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-    }
-    .game-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), #ff6b00);
-      width: 0%;
-      box-shadow: 0 0 15px rgba(255,184,0,0.6);
-      border-radius: 5px;
-      transition: width 1s linear;
-    }
+    .game-bar-bg { height: 8px; background: rgba(0,0,0,0.8); border-radius: 5px; overflow: hidden; margin-bottom: 10px; border: 1px solid #333;}
+    .game-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #ff6b00); width: 0%; box-shadow: 0 0 15px rgba(255,184,0,0.6); border-radius: 5px; transition: width 1s linear; }
     .timer-text { font-family: monospace; color: var(--primary); font-size: 16px; }
     
     .receipt-box {
-      background: #000;
-      border: 1px solid #333;
-      padding: 20px;
-      border-radius: var(--radius-md);
-      text-align: left;
-      margin-top: 20px;
-      font-family: monospace;
-      font-size: 13px;
+      background: rgba(0,0,0,0.5); border: 1px solid var(--surface-border); padding: 20px;
+      border-radius: var(--radius-md); text-align: left; margin-top: 20px; font-family: monospace; font-size: 13px;
     }
-    .receipt-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      border-bottom: 1px dashed #333;
-      padding-bottom: 8px;
-    }
-    .receipt-label { color: #666; }
+    .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px; }
+    .receipt-label { color: #888; }
     .receipt-value { color: #fff; font-weight: 600; }
 
     /* --- TOAST & SOCIAL PROOF --- */
     .toast {
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
-      background: #1a1a1a;
-      border: 1px solid var(--success);
-      padding: 12px 24px;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 100;
-      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+      background: rgba(10,10,10,0.9); border: 1px solid var(--success); padding: 12px 24px;
+      border-radius: 50px; display: flex; align-items: center; gap: 10px; z-index: 100;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 5px 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
     .toast i { color: var(--success); }
 
     .social-proof {
-      position: fixed; bottom: 20px; left: 20px;
-      background: rgba(10,10,10,0.9);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--surface-border);
-      padding: 10px 15px;
-      border-radius: 50px;
-      display: none;
-      align-items: center;
-      gap: 10px;
-      z-index: 99;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-      animation: slideInLeft 0.5s ease;
+      position: fixed; bottom: 20px; left: 20px; background: rgba(14,14,18,0.85);
+      backdrop-filter: blur(15px); border: 1px solid var(--surface-border); padding: 10px 15px;
+      border-radius: 50px; display: none; align-items: center; gap: 10px; z-index: 99;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: slideInLeft 0.5s ease;
     }
     @keyframes slideInLeft { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    
-    .social-proof-avatar {
-      width: 30px; height: 30px;
-      background: var(--primary);
-      border-radius: 50%;
-      color: #000;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
-    }
+    .social-proof-avatar { width: 30px; height: 30px; background: var(--primary); border-radius: 50%; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
     .social-proof-text { font-size: 12px; color: #ccc; }
     .social-proof-uc { color: var(--primary); font-weight: 700; }
 
-    /* Particles CSS */
     .floating-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-    .particle {
-      position: absolute;
-      color: var(--primary);
-      opacity: 0.1;
-      font-size: 10px;
-      animation: floatUp linear infinite;
-    }
+    .particle { position: absolute; color: var(--primary); opacity: 0.1; font-size: 10px; animation: floatUp linear infinite; }
     @keyframes floatUp {
       0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      20% { opacity: 0.2; }
-      80% { opacity: 0.2; }
+      20% { opacity: 0.3; } 80% { opacity: 0.3; }
       100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
     }
 
-    .night-msg {
-       display: none;
-       background: rgba(255, 184, 0, 0.05);
-       border: 1px solid #996e00;
-       color: var(--primary);
-       padding: 15px;
-       border-radius: var(--radius-md);
-       font-size: 13px;
-       margin-top: 15px;
-    }
-
+    .night-msg { display: none; background: rgba(255, 184, 0, 0.1); border: 1px solid rgba(255, 184, 0, 0.3); color: var(--primary); padding: 15px; border-radius: var(--radius-md); font-size: 13px; margin-top: 15px; }
     .final-success-msg { display: none; color: var(--success); margin-top: 10px; font-weight: 600; }
-    
     .confetti { position: fixed; width: 8px; height: 8px; z-index: 200; pointer-events: none; }
-    
-    .high-value-warning {
-      background: rgba(255, 71, 87, 0.1);
-      border: 1px solid var(--error);
-      color: #fff;
-      font-size: 11px;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-      display: none;
-      text-align: left;
-    }
-
+    .high-value-warning { background: rgba(255, 71, 87, 0.15); border: 1px solid rgba(255, 71, 87, 0.4); color: #fff; font-size: 11px; padding: 10px; border-radius: 8px; margin-top: 10px; display: none; text-align: left; }
   </style>
 </head>
 
 <body>
+  <!-- VIDEO BACKGROUND -->
+  <div class="video-background-container">
+    <div class="video-overlay"></div>
+    <!-- Make sure to name your video file 'video.mp4' and place it in the same folder -->
+    <video id="bgVideo" muted playsinline preload="auto">
+      <source src="video.mp4" type="video/mp4">
+      <!-- Fallback if video isn't loaded -->
+    </video>
+  </div>
+
   <audio id="bgmAudio" src="bgm.mp3" loop></audio>
   <div class="floating-particles" id="floatingParticles"></div>
 
@@ -696,238 +427,289 @@
     <span class="toast-text" id="toastText">Copied!</span>
   </div>
 
-  <div class="container">
-    
-    <div class="top-card">
-      <div class="header">
-        <img src="ucify.webp" alt="UCify Logo" class="logo-img">
-        <p class="tagline">Premium BGMI UC • Lightning-fast delivery</p>
-
-        <div class="partner-block">
-          <!-- CHANGED: Verified -> Official, Removed Icon -->
-          <div class="partner-badge">OFFICIAL PARTNER</div>
-        </div>
-
-        <div class="trust-strip">
-          <div class="trust-pill"><i class="fa-solid fa-lock"></i> Secure</div>
-          <div class="trust-pill"><i class="fa-solid fa-bolt"></i> Instant</div>
-          <div class="trust-pill"><i class="fa-solid fa-headset"></i> 24/7</div>
-        </div>
-
-        <div class="live-stats">
-          <div class="stat-badge">
-            <i class="fa-solid fa-earth-asia" style="color: var(--accent);"></i>
-            <span id="liveOrders" class="stat-number">1425</span> Orders Today
-          </div>
-        </div>
-      </div>
+  <!-- INITIAL SCROLL PROMPT -->
+  <div class="hero-section" id="heroSection">
+    <h1 class="hero-title">Elevate Your Game</h1>
+    <p style="color: var(--text-muted); font-size: 16px;">Scroll to initiate 3D Top-Up Module</p>
+    <div class="scroll-indicator">
+      <span>Scroll Down</span>
+      <i class="fa-solid fa-angles-down"></i>
     </div>
+  </div>
 
-    <div class="progress-wrap">
-      <div class="progress-container">
-        <div class="progress-step active" data-step="1">1</div>
-        <div class="progress-line" id="line1"></div> <div class="progress-step" data-step="2">2</div>
-        <div class="progress-line" id="line2"></div>
-        <div class="progress-step" data-step="3">3</div>
-        <div class="progress-line" id="line3"></div>
-        <div class="progress-step" data-step="4"><i class="fa-solid fa-check"></i></div>
-      </div>
-    </div>
+  <!-- MAIN STORE UI (Appears when scrolled down) -->
+  <div class="main-content-wrapper" id="mainStoreUI">
+    <div class="container">
+      
+      <div class="top-card">
+        <div class="header">
+          <img src="ucify.webp" alt="UCify Logo" class="logo-img" onerror="this.style.display='none';">
+          <p class="tagline">Premium BGMI UC • Lightning-fast delivery</p>
 
-    <!-- STEP 1: PLAYER DETAILS -->
-    <div id="step1" class="step active">
-      <div class="step-content">
-        <h2 class="step-title">Player Details</h2>
-        <p class="subnote">Enter your BGMI ID to verify account</p>
-
-        <div class="form-group">
-          <label class="form-label">BGMI Character ID (UID)</label>
-          <div class="form-input-wrapper">
-            <!-- CHANGED: Removed placeholder text -->
-            <input type="tel" class="form-input" id="uid" placeholder="" maxlength="12" inputmode="numeric">
-            <i class="input-icon" id="uidIcon"></i>
-          </div>
-          <div class="error-message" id="uidError">Invalid UID Format</div>
-        </div>
-
-        <div class="form-group">
-          <!-- CHANGED: Label text updated -->
-          <label class="form-label">BGMI ID Name</label>
-          <div class="form-input-wrapper">
-             <!-- CHANGED: Removed placeholder text -->
-            <input type="text" class="form-input" id="ign" placeholder="" maxlength="20">
-            <i class="input-icon" id="ignIcon"></i>
-          </div>
-          <div class="error-message" id="ignError">Name Required</div>
-        </div>
-
-        <div class="btn-row">
-          <button type="button" class="btn btn-primary" id="next1" disabled>Verify & Continue <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 2: SELECT PACK -->
-    <div id="step2" class="step">
-      <div class="step-content">
-        <!-- CHANGED: Title -->
-        <h2 class="step-title">Select BGMI UC Packs</h2>
-        <!-- CHANGED: Showing Name alongside UID -->
-        <p class="subnote">Top up for <span id="displayUid" style="color:var(--primary);">--</span> (<span id="displayIgn" style="color:#fff;">--</span>)</p>
-
-        <div class="packs-grid" id="packsGrid">
-          <!-- MODIFIED: Added "UC" text to display -->
-          <div class="pack-card" data-uc="60" data-price="45">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 60 UC</div>
-            <div class="pack-price">₹45</div>
-          </div>
-          
-          <div class="pack-card" data-uc="325" data-price="180">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 325 UC</div>
-            <div class="pack-price">₹180</div>
+          <div class="partner-block">
+            <div class="partner-badge">OFFICIAL PARTNER</div>
           </div>
 
-          <div class="pack-card" data-uc="660" data-price="375">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 660 UC</div>
-            <div class="pack-price">₹375</div>
-          </div>
-          <div class="pack-card" data-uc="1800" data-price="950">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 1800 UC</div>
-            <div class="pack-price">₹950</div>
-          </div>
-          <div class="pack-card" data-uc="3850" data-price="1710">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 3850 UC</div>
-            <div class="pack-price">₹1710</div>
-          </div>
-          <div class="pack-card" data-uc="8100" data-price="3375">
-            <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon"> 8100 UC</div>
-            <div class="pack-price">₹3375</div>
-          </div>
-        </div>
-
-        <div class="btn-row">
-           <button type="button" class="btn btn-secondary" id="backToDetails">Back</button>
-           <button type="button" class="btn btn-primary" id="next2" disabled>Checkout</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 3: PAYMENT -->
-    <div id="step3" class="step">
-      <div class="step-content">
-        <h2 class="step-title">Payment Gateway</h2>
-        <p class="subnote">Complete transaction to trigger transfer</p>
-
-        <div class="payment-section">
-          <div style="font-size: 14px; margin-bottom: 10px; color: var(--text-muted);">TOTAL PAYABLE</div>
-          <div style="font-size: 36px; font-weight: 800; color: var(--primary); font-family: var(--font-display); margin-bottom: 20px; text-shadow: 0 0 20px rgba(255,184,0,0.3);">
-            <span id="paymentAmount">₹0</span>
+          <div class="trust-strip">
+            <div class="trust-pill"><i class="fa-solid fa-lock"></i> Secure</div>
+            <div class="trust-pill"><i class="fa-solid fa-bolt"></i> Instant</div>
+            <div class="trust-pill"><i class="fa-solid fa-headset"></i> 24/7</div>
           </div>
 
-          <!-- High Value Warning -->
-          <div id="highValueWarning" class="high-value-warning">
-             <i class="fa-solid fa-triangle-exclamation"></i> <strong>Limit Warning:</strong> Personal UPI limits often fail for amounts over ₹2000 via QR. If scan fails, please use the <strong>Copy UPI ID</strong> button below and pay directly from your app.
-          </div>
-
-          <div class="qr-card">
-            <div class="qr-box">
-               <div id="qrLoader" class="qr-skeleton"></div>
-               <img id="staticQrImage" src="" alt="Scan QR" style="width:100%; height:100%; object-fit:contain; display:none;">
-            </div>
-            
-            <div class="qr-timer" id="qrTimer" style="display:none;">
-              <i class="fa-regular fa-clock"></i> <span id="timerDisplay">15:00</span>
-            </div>
-
-            <div style="margin-top: 15px;">
-              <div style="font-size: 11px; color: #666; margin-bottom: 5px;">UPI ID / VPA</div>
-              <span id="upiIdText" class="upi-id">--</span>
-              <button type="button" class="copy-btn" id="copyUpiBtn"><i class="fa-solid fa-copy"></i> Copy</button>
+          <div class="live-stats">
+            <div class="stat-badge">
+              <i class="fa-solid fa-earth-asia" style="color: var(--accent);"></i>
+              <span id="liveOrders" class="stat-number">1425</span> Orders Today
             </div>
           </div>
-
-          <div style="text-align: left; font-size: 12px; color: #888; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
-            <i class="fa-solid fa-circle-info" style="color: var(--accent);"></i> 
-            Scan the QR code and pay exactly the amount shown. Take a screenshot of the success screen.
-          </div>
         </div>
+      </div>
 
-        <form id="orderForm" style="margin-top: 20px;">
-          <input type="hidden" name="_subject" value="New UC Order!">
-          <input type="hidden" name="_captcha" value="false">
-          <!-- We will inject values via JS before submission -->
-          
-          <div class="file-upload-area" id="uploadArea">
-            <i class="fas fa-cloud-arrow-up" id="uploadIcon" style="font-size: 32px; color: var(--text-muted); margin-bottom: 10px;"></i>
-            <i class="fas fa-check-circle upload-success-icon" id="uploadSuccessIcon" style="display:none; font-size: 40px; color: var(--success);"></i>
-            <div id="uploadText" style="font-weight: 600; font-size: 14px;">Upload Payment Screenshot</div>
-            <div class="hint" id="uploadHint" style="font-size: 11px; color: #666;">Tap to browse or drag file here</div>
-            
-            <input type="file" id="screenshot" name="paymentscreenshot" accept="image/*" style="display:none;" required>
-            <img id="screenshotPreview">
-            <div class="upload-progress" id="uploadProgress"></div>
+      <div class="progress-wrap">
+        <div class="progress-container">
+          <div class="progress-step active" data-step="1">1</div>
+          <div class="progress-line" id="line1"></div> 
+          <div class="progress-step" data-step="2">2</div>
+          <div class="progress-line" id="line2"></div>
+          <div class="progress-step" data-step="3">3</div>
+          <div class="progress-line" id="line3"></div>
+          <div class="progress-step" data-step="4"><i class="fa-solid fa-check"></i></div>
+        </div>
+      </div>
+
+      <!-- STEP 1: PLAYER DETAILS -->
+      <div id="step1" class="step active">
+        <div class="step-content">
+          <h2 class="step-title">Player Details</h2>
+          <p class="subnote">Enter your BGMI ID to verify account</p>
+
+          <div class="form-group">
+            <label class="form-label">BGMI Character ID (UID)</label>
+            <div class="form-input-wrapper">
+              <input type="tel" class="form-input" id="uid" placeholder="" maxlength="12" inputmode="numeric">
+              <i class="input-icon" id="uidIcon"></i>
+            </div>
+            <div class="error-message" id="uidError">Invalid UID Format</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">BGMI ID Name</label>
+            <div class="form-input-wrapper">
+              <input type="text" class="form-input" id="ign" placeholder="" maxlength="20">
+              <i class="input-icon" id="ignIcon"></i>
+            </div>
+            <div class="error-message" id="ignError">Name Required</div>
           </div>
 
           <div class="btn-row">
-            <button type="button" class="btn btn-secondary" id="back3">Back</button>
-            <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Confirm Order</button>
+            <button type="button" class="btn btn-primary" id="next1" disabled>Verify & Continue <i class="fa-solid fa-arrow-right"></i></button>
           </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- STEP 4: SUCCESS -->
-    <div id="step4" class="step">
-      <div class="step-content success-screen">
-        <div class="success-icon"><i class="fa-regular fa-circle-check"></i></div>
-        <h2 class="success-title">Order Confirmed</h2>
-        
-        <div class="game-loader-wrap" id="gameLoaderWrap">
-            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                <!-- MODIFIED: Default text changed -->
-                <span class="delivery-msg" id="deliveryMsg">Connecting to BGMI Servers...</span>
-                <span class="timer-text" id="deliveryTimer">07:00</span>
-            </div>
-            <div class="game-bar-bg">
-                <div class="game-bar-fill" id="gameBarFill"></div>
-            </div>
-        </div>
-
-        <div class="night-msg" id="nightMessage">
-             <i class="fas fa-moon" style="margin-bottom: 8px; font-size: 18px;"></i><br>
-             <strong>Night Mode Active</strong><br>
-             Instant delivery paused. UC will be credited after 9:00 AM.
-        </div>
-
-        <div class="final-success-msg" id="finalSuccessMsg">
-             UC Transfer Complete.
-        </div>
-
-        <div class="receipt-box">
-          <div style="color: var(--primary); margin-bottom: 15px; font-weight: 700; display:flex; justify-content:space-between;">
-             <span>RECEIPT</span>
-             <span><span id="orderIdText" style="color: #fff; cursor: pointer;" onclick="copyOrderId()">--</span> <i class="fa-solid fa-copy" style="font-size:12px; margin-left:5px;"></i></span>
-          </div>
-          <div class="receipt-row"><span class="receipt-label">Pack</span><span class="receipt-value" id="receipt-pack">--</span></div>
-          <div class="receipt-row"><span class="receipt-label">Amount</span><span class="receipt-value" id="receipt-amount">--</span></div>
-          <div class="receipt-row"><span class="receipt-label">UID</span><span class="receipt-value" id="receipt-uid">--</span></div>
-          <div class="receipt-row"><span class="receipt-label">IGN</span><span class="receipt-value" id="receipt-ign">--</span></div>
-          <div class="receipt-row"><span class="receipt-label">Time</span><span class="receipt-value" id="receipt-time">--</span></div>
-        </div>
-
-        <div id="newOrderBtnWrap" style="margin-top: 20px;">
-          <button type="button" class="btn btn-primary" onclick="location.reload()" id="newOrderBtn" style="display:none;">Place Another Order</button>
         </div>
       </div>
+
+      <!-- STEP 2: SELECT PACK -->
+      <div id="step2" class="step">
+        <div class="step-content">
+          <h2 class="step-title">Select BGMI UC Packs</h2>
+          <p class="subnote">Top up for <span id="displayUid" style="color:var(--primary);">--</span> (<span id="displayIgn" style="color:#fff;">--</span>)</p>
+
+          <div class="packs-grid" id="packsGrid">
+            <div class="pack-card" data-uc="60" data-price="45">
+              <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon" onerror="this.style.display='none';"> 60 UC</div>
+              <div class="pack-price">₹45</div>
+            </div>
+            <div class="pack-card" data-uc="325" data-price="180">
+              <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon" onerror="this.style.display='none';"> 325 UC</div>
+              <div class="pack-price">₹180</div>
+            </div>
+            <div class="pack-card" data-uc="660" data-price="375">
+              <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon" onerror="this.style.display='none';"> 660 UC</div>
+              <div class="pack-price">₹375</div>
+            </div>
+            <div class="pack-card" data-uc="1800" data-price="950">
+              <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon" onerror="this.style.display='none';"> 1800 UC</div>
+              <div class="pack-price">₹950</div>
+            </div>
+            <div class="pack-card" data-uc="3850" data-price="1710">
+              <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon" onerror="this.style.display='none';"> 3850 UC</div>
+              <div class="pack-price">₹1710</div>
+            </div>
+            <div class="pack-card" data-uc="8100" data-price="3375">
+              <div class="pack-uc"><img src="uc-logo.webp" class="uc-icon" onerror="this.style.display='none';"> 8100 UC</div>
+              <div class="pack-price">₹3375</div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+             <button type="button" class="btn btn-secondary" id="backToDetails">Back</button>
+             <button type="button" class="btn btn-primary" id="next2" disabled>Checkout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: PAYMENT -->
+      <div id="step3" class="step">
+        <div class="step-content">
+          <h2 class="step-title">Payment Gateway</h2>
+          <p class="subnote">Complete transaction to trigger transfer</p>
+
+          <div class="payment-section">
+            <div style="font-size: 14px; margin-bottom: 10px; color: var(--text-muted);">TOTAL PAYABLE</div>
+            <div style="font-size: 36px; font-weight: 800; color: var(--primary); font-family: var(--font-display); margin-bottom: 20px; text-shadow: 0 0 20px rgba(255,184,0,0.3);">
+              <span id="paymentAmount">₹0</span>
+            </div>
+
+            <!-- High Value Warning -->
+            <div id="highValueWarning" class="high-value-warning">
+               <i class="fa-solid fa-triangle-exclamation"></i> <strong>Limit Warning:</strong> Personal UPI limits often fail for amounts over ₹2000 via QR. If scan fails, please use the <strong>Copy UPI ID</strong> button below and pay directly from your app.
+            </div>
+
+            <div class="qr-card">
+              <div class="qr-box">
+                 <div id="qrLoader" class="qr-skeleton"></div>
+                 <img id="staticQrImage" src="" alt="Scan QR" style="width:100%; height:100%; object-fit:contain; display:none;">
+              </div>
+              
+              <div class="qr-timer" id="qrTimer" style="display:none;">
+                <i class="fa-regular fa-clock"></i> <span id="timerDisplay">15:00</span>
+              </div>
+
+              <div style="margin-top: 15px;">
+                <div style="font-size: 11px; color: #888; margin-bottom: 5px;">UPI ID / VPA</div>
+                <span id="upiIdText" class="upi-id">--</span>
+                <button type="button" class="copy-btn" id="copyUpiBtn"><i class="fa-solid fa-copy"></i> Copy</button>
+              </div>
+            </div>
+
+            <div style="text-align: left; font-size: 12px; color: #aaa; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+              <i class="fa-solid fa-circle-info" style="color: var(--accent);"></i> 
+              Scan the QR code and pay exactly the amount shown. Take a screenshot of the success screen.
+            </div>
+          </div>
+
+          <form id="orderForm" style="margin-top: 20px;">
+            <input type="hidden" name="_subject" value="New UC Order!">
+            <input type="hidden" name="_captcha" value="false">
+            
+            <div class="file-upload-area" id="uploadArea">
+              <i class="fas fa-cloud-arrow-up" id="uploadIcon" style="font-size: 32px; color: #888; margin-bottom: 10px;"></i>
+              <i class="fas fa-check-circle upload-success-icon" id="uploadSuccessIcon" style="display:none; font-size: 40px; color: var(--success);"></i>
+              <div id="uploadText" style="font-weight: 600; font-size: 14px; color: #fff;">Upload Payment Screenshot</div>
+              <div class="hint" id="uploadHint" style="font-size: 11px; color: #888;">Tap to browse or drag file here</div>
+              
+              <input type="file" id="screenshot" name="paymentscreenshot" accept="image/*" style="display:none;" required>
+              <img id="screenshotPreview">
+              <div class="upload-progress" id="uploadProgress"></div>
+            </div>
+
+            <div class="btn-row">
+              <button type="button" class="btn btn-secondary" id="back3">Back</button>
+              <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Confirm Order</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- STEP 4: SUCCESS -->
+      <div id="step4" class="step">
+        <div class="step-content success-screen">
+          <div class="success-icon"><i class="fa-regular fa-circle-check"></i></div>
+          <h2 class="success-title">Order Confirmed</h2>
+          
+          <div class="game-loader-wrap" id="gameLoaderWrap">
+              <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                  <span class="delivery-msg" id="deliveryMsg" style="color: #ccc; font-size: 14px;">Connecting to BGMI Servers...</span>
+                  <span class="timer-text" id="deliveryTimer">07:00</span>
+              </div>
+              <div class="game-bar-bg">
+                  <div class="game-bar-fill" id="gameBarFill"></div>
+              </div>
+          </div>
+
+          <div class="night-msg" id="nightMessage">
+               <i class="fas fa-moon" style="margin-bottom: 8px; font-size: 18px;"></i><br>
+               <strong>Night Mode Active</strong><br>
+               Instant delivery paused. UC will be credited after 9:00 AM.
+          </div>
+
+          <div class="final-success-msg" id="finalSuccessMsg">
+               UC Transfer Complete.
+          </div>
+
+          <div class="receipt-box">
+            <div style="color: var(--primary); margin-bottom: 15px; font-weight: 700; display:flex; justify-content:space-between;">
+                <span>RECEIPT</span>
+                <span><span id="orderIdText" style="color: #fff; cursor: pointer;" onclick="copyOrderId()">--</span> <i class="fa-solid fa-copy" style="font-size:12px; margin-left:5px;"></i></span>
+            </div>
+            <div class="receipt-row"><span class="receipt-label">Pack</span><span class="receipt-value" id="receipt-pack">--</span></div>
+            <div class="receipt-row"><span class="receipt-label">Amount</span><span class="receipt-value" id="receipt-amount">--</span></div>
+            <div class="receipt-row"><span class="receipt-label">UID</span><span class="receipt-value" id="receipt-uid">--</span></div>
+            <div class="receipt-row"><span class="receipt-label">IGN</span><span class="receipt-value" id="receipt-ign">--</span></div>
+            <div class="receipt-row"><span class="receipt-label">Time</span><span class="receipt-value" id="receipt-time">--</span></div>
+          </div>
+
+          <div id="newOrderBtnWrap" style="margin-top: 20px;">
+            <button type="button" class="btn btn-primary" onclick="window.scrollTo(0,0); location.reload();" id="newOrderBtn" style="display:none;">Place Another Order</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
+    // --- 3D VIDEO SCROLL EFFECT LOGIC ---
+    const bgVideo = document.getElementById('bgVideo');
+    const heroSection = document.getElementById('heroSection');
+    const mainUI = document.getElementById('mainStoreUI');
+
+    // To ensure the video acts properly on Mobile Safari/Chrome, we attempt a quick play/pause on first interaction
+    let videoInitialized = false;
+    function initVideo() {
+        if (!videoInitialized && bgVideo) {
+            bgVideo.play().then(() => { bgVideo.pause(); }).catch(e => console.log("Video autoplay prevented until interaction"));
+            videoInitialized = true;
+        }
+    }
+    document.body.addEventListener('touchstart', initVideo, { once: true });
+    document.body.addEventListener('click', initVideo, { once: true });
+
+    // The scroll-linked frame update
+    window.addEventListener('scroll', () => {
+        // Calculate scroll percentage
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const currentScroll = window.scrollY;
+        
+        // Prevent division by zero
+        if(maxScroll > 0) {
+            const scrollFraction = currentScroll / maxScroll;
+            
+            // Scrub the video time based on scroll
+            if (bgVideo.duration) {
+                // Use requestAnimationFrame for smoother performance on iQOO/Android
+                window.requestAnimationFrame(() => {
+                    bgVideo.currentTime = bgVideo.duration * scrollFraction;
+                });
+            }
+
+            // Fade out the hero text and fade in the UI as user scrolls down
+            if (scrollFraction > 0.1) {
+                heroSection.style.opacity = Math.max(0, 1 - (scrollFraction * 4));
+            } else {
+                heroSection.style.opacity = 1;
+            }
+
+            // Reveal the UCify Store form
+            if (scrollFraction > 0.15) {
+                mainUI.classList.add('visible');
+            } else {
+                mainUI.classList.remove('visible');
+            }
+        }
+    });
+
     // --- GOOGLE SHEETS BACKEND CONFIGURATION ---
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxZmmaWlqrx9ydYVfO3XkZKh25Oxa_k0XiLNBPbEVEBOwZTlE2qPxF6OEoU-I9oJzLj/exec"; 
-
-    // --- FORM BACKEND (REPLACING NETLIFY) ---
-    // IMPORTANT: REPLACE THIS EMAIL WITH YOUR OWN
     const FORM_ENDPOINT = "https://formsubmit.co/thebasicgamermlbb@gmail.com"; 
 
     let currentStep = 1;
@@ -938,17 +720,14 @@
     let timerSeconds = 900;
     let currentUid = "";
     let currentIgn = "";
-
     const UPIVPA = "ucify@ptaxis";
-     
-    // --- BGM AUDIO SETUP ---
+      
+    // --- AUDIO SETUP ---
     const bgm = document.getElementById('bgmAudio');
     bgm.volume = 0.3; 
 
     function initAudio() {
-        if(bgm.paused) {
-            bgm.play().catch(e => console.log("Audio waiting for interaction"));
-        }
+        if(bgm.paused) { bgm.play().catch(e => console.log("Audio waiting")); }
     }
     document.body.addEventListener('click', initAudio, { once: true });
     document.body.addEventListener('touchstart', initAudio, { once: true });
@@ -957,7 +736,6 @@
         if (document.hidden) { bgm.pause(); } else { bgm.play().catch(e => console.log("Waiting")); }
     });
 
-    // Modified particle init for CSS based system
     function initParticles(){
       const container = document.getElementById('floatingParticles');
       for(let i = 0; i < 15; i++){
@@ -981,15 +759,10 @@
           confetti.style.left = Math.random() * 100 + '%';
           confetti.style.top = '-10px';
           confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          
           confetti.animate([
             { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
             { transform: `translate(${Math.random()*100 - 50}px, 100vh) rotate(720deg)`, opacity: 0 }
-          ], {
-            duration: 2000 + Math.random() * 2000,
-            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-          });
-          
+          ], { duration: 2000 + Math.random() * 2000, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' });
           document.body.appendChild(confetti);
           setTimeout(() => confetti.remove(), 4000);
         }, i * 30);
@@ -1001,8 +774,7 @@
       document.getElementById('next1').disabled = true;
     });
 
-    const gamingNames = [ "亗『MÂFÎÂ亗", "TOXIC彡KD", "77・playzYT", "SK๛play๛Live", "千ムＩＲＹＹ", "IQōShāDøwW", "LÙÇÍFËR〆", "Mâhïmâ", "DEMØN丨DEEPAK", "亗CZxAnurag亗", "FRSTxZGOD", "FGxWONGPLAYzzz", "GÕD〤RÚSHÈR", "IGメABHAY", "MR々ŁEGENÐ", "VÌNNÍ乂PLAYZ", "KGF๛OP亗×", "ROYALツKUNAL20", "『RÁGNÁR』", "GLXY丨DANGER", "SHADOW๛RIVEN", "會DAKU父", "LEGEND丶OPP", "SAʀDAʀJi", "HAWK么HARSH", "ZMCxSHREY", "K4气KALAAKAR", "『AIMGOD』1", "T乛Rex乛RAVAN", "Ē・ＶＥＮＯＭ", "๛『Vëgêtå", "4A乛M丨SNOW", "٭ɞALPHAʚ٭", "im๛PANDA", "SGLxShivam", "乛GameīxīOM", "・Ｄ卄マＵＶ・", "『EPC』KRXSNA", "ＦｒＯｚｅＮ", "๛Ðʀʌɢo", "ＹＡＳＨīě", "ＳＨＵ及Ｈ", "XT个『Farhan』", "D£ATH๛SLAYER", "『LAKSHYÀ』", "中ツWARRIORYT", "Vns๛Rahul", "EQZxJOKERyt", "ReFLeXツVENOM", "冬ＧＡＢＢＡＲ" ];
-
+    const gamingNames = [ "亗『MÂFÎÂ亗", "TOXIC彡KD", "77・playzYT", "SK๛play๛Live", "IQōShāDøwW", "LÙÇÍFËR〆" ];
     const ucPacksList = ["60 UC", "325 UC", "660 UC", "1800 UC", "3850 UC", "8100 UC"];
 
     function showSocialProof(){
@@ -1015,13 +787,11 @@
       el.style.display = 'flex';
       setTimeout(() => { el.style.display = 'none'; }, 5000);
     }
-
     setInterval(() => { if(Math.random() > 0.5) showSocialProof(); }, 10000);
 
     function getIndiaHour(){
       const date = new Date();
-      const hourStr = date.toLocaleString("en-US", {timeZone: "Asia/Kolkata", hour: "numeric", hour12: false});
-      return parseInt(hourStr);
+      return parseInt(date.toLocaleString("en-US", {timeZone: "Asia/Kolkata", hour: "numeric", hour12: false}));
     }
 
     function animateLiveOrders(){
@@ -1031,8 +801,7 @@
       function updateCounter() {
           currentOrders += 1;
           el.textContent = currentOrders;
-          let nextInterval = 15000 + Math.floor(Math.random() * 5001);
-          setTimeout(updateCounter, nextInterval);
+          setTimeout(updateCounter, 15000 + Math.floor(Math.random() * 5001));
       }
       setTimeout(updateCounter, 15000);
     }
@@ -1040,9 +809,7 @@
 
     function startQRTimer(){
       const display = document.getElementById('timerDisplay');
-      const timerEl = document.getElementById('qrTimer');
-      timerEl.style.display = 'block'; 
-       
+      document.getElementById('qrTimer').style.display = 'block'; 
       if(qrTimer) clearInterval(qrTimer);
       timerSeconds = 900;
       qrTimer = setInterval(() => {
@@ -1050,11 +817,7 @@
         const mins = Math.floor(timerSeconds / 60);
         const secs = timerSeconds % 60;
         display.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-         
-        if(timerSeconds <= 0){
-          clearInterval(qrTimer);
-          display.textContent = 'Expired';
-        }
+        if(timerSeconds <= 0){ clearInterval(qrTimer); display.textContent = 'Expired'; }
       }, 1000);
     }
 
@@ -1066,10 +829,8 @@
     }
 
     function copyOrderId(){
-      const orderIdEl = document.getElementById('orderIdText');
-      navigator.clipboard.writeText(orderIdEl.textContent).then(() => {
-        showToast('Order ID copied!');
-        triggerHaptic('success');
+      navigator.clipboard.writeText(document.getElementById('orderIdText').textContent).then(() => {
+        showToast('Order ID copied!'); triggerHaptic('success');
       });
     }
 
@@ -1079,20 +840,11 @@
       navigator.vibrate(patterns[type] || [10]);
     }
 
-    function generateOrderId(){
-      return `UCF-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random()*900)}`;
-    }
-
     function showStep(step){
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       document.getElementById(`step${step}`).classList.add('active');
       currentStep = step;
-      updateProgress();
-    }
-
-    function updateProgress(){
-      const steps = document.querySelectorAll('.progress-step');
-      steps.forEach((stepEl, idx) => {
+      document.querySelectorAll('.progress-step').forEach((stepEl, idx) => {
         stepEl.classList.toggle('completed', idx < currentStep - 1);
         stepEl.classList.toggle('active', idx === currentStep - 1);
       });
@@ -1100,10 +852,7 @@
 
     const uidInput = document.getElementById('uid');
     const ignInput = document.getElementById('ign');
-    const uidIcon = document.getElementById('uidIcon');
-    const ignIcon = document.getElementById('ignIcon');
-    const uidError = document.getElementById('uidError');
-
+    
     document.querySelectorAll('.pack-card').forEach(card => {
         card.addEventListener('click', function(){
             if(this.classList.contains('purchased')) return;
@@ -1124,305 +873,148 @@
 
     function checkStep1Validation() {
         const uidVal = uidInput.value.replace(/\D/g, '');
-        const ignVal = ignInput.value.trim();
-        const isUidValid = uidVal.length >= 9 && uidVal.length <= 12;
-        const isIgnValid = ignVal.length >= 2;
-        document.getElementById('next1').disabled = !(isUidValid && isIgnValid);
+        document.getElementById('next1').disabled = !(uidVal.length >= 9 && uidVal.length <= 12 && ignInput.value.trim().length >= 2);
     }
 
     uidInput.addEventListener('input', function(){
       this.value = this.value.replace(/\D/g, '').slice(0,12);
-      const len = this.value.length;
-      const isValid = len >= 9 && len <= 12;
-      if(isValid){
-          uidInput.style.borderColor = "var(--success)";
-          uidIcon.className = 'input-icon check fas fa-check-circle';
-          uidError.classList.remove('show');
-          triggerHaptic('light');
-      } else {
-          uidInput.style.borderColor = "";
-          uidIcon.className = '';
-      }
+      const isValid = this.value.length >= 9 && this.value.length <= 12;
+      this.style.borderColor = isValid ? "var(--success)" : "";
+      document.getElementById('uidIcon').className = isValid ? 'input-icon check fas fa-check-circle' : '';
+      if(isValid) triggerHaptic('light');
       checkStep1Validation();
     });
 
     ignInput.addEventListener('input', function(){
         const isValid = this.value.trim().length >= 2;
-        if(isValid){
-          ignInput.style.borderColor = "var(--success)";
-          ignIcon.className = 'input-icon check fas fa-check-circle';
-          triggerHaptic('light');
-        } else {
-          ignInput.style.borderColor = "";
-          ignIcon.className = '';
-        }
+        this.style.borderColor = isValid ? "var(--success)" : "";
+        document.getElementById('ignIcon').className = isValid ? 'input-icon check fas fa-check-circle' : '';
+        if(isValid) triggerHaptic('light');
         checkStep1Validation();
     });
 
-    async function fetchPurchasedPacks(uid) {
-        if(!APPS_SCRIPT_URL) return [];
-        try {
-            const response = await fetch(`${APPS_SCRIPT_URL}?uid=${uid}`);
-            const data = await response.json();
-            return data.purchased || [];
-        } catch (e) { return []; }
-    }
-
     document.getElementById('next1').onclick = async () => {
         const btn = document.getElementById('next1');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
-        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...'; btn.disabled = true;
 
-        currentUid = uidInput.value;
-        currentIgn = ignInput.value;
+        currentUid = uidInput.value; currentIgn = ignInput.value;
         document.getElementById('displayUid').textContent = currentUid;
-        document.getElementById('displayIgn').textContent = currentIgn; // Show IGN
+        document.getElementById('displayIgn').textContent = currentIgn; 
 
-        const purchasedPacks = await fetchPurchasedPacks(currentUid);
-          
-        document.querySelectorAll('.pack-card').forEach(card => {
-            card.classList.remove('purchased', 'selected');
-            card.querySelector('.check-mark')?.remove();
-            
-            // Logic: Hide purchased packs completely
-            if(purchasedPacks.includes(card.dataset.uc)){
-                card.classList.add('purchased');
-            }
-        });
-
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        showStep(2);
+        // Simulated fast fetch for UI demo
+        setTimeout(() => {
+          btn.innerHTML = 'Verify & Continue <i class="fa-solid fa-arrow-right"></i>'; 
+          btn.disabled = false; showStep(2);
+        }, 800);
     };
 
     document.getElementById('backToDetails').onclick = () => showStep(1);
 
     document.getElementById('next2').onclick = function(){
-      const amountEl = document.getElementById('paymentAmount');
-      amountEl.textContent = '₹' + selectedPack.price;
-      orderId = generateOrderId();
+      document.getElementById('paymentAmount').textContent = '₹' + selectedPack.price;
+      orderId = `UCF-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random()*900)}`;
       document.getElementById('upiIdText').textContent = UPIVPA;
       
-      // Logic for High Value transactions (UPI Limit issue)
-      const warningEl = document.getElementById('highValueWarning');
-      if (parseInt(selectedPack.price) > 2000) {
-          warningEl.style.display = 'block';
-      } else {
-          warningEl.style.display = 'none';
-      }
+      document.getElementById('highValueWarning').style.display = parseInt(selectedPack.price) > 2000 ? 'block' : 'none';
         
       const qrImage = document.getElementById('staticQrImage');
       const loader = document.getElementById('qrLoader');
-        
-      qrImage.style.display = 'none';
-      loader.style.display = 'block';
+      qrImage.style.display = 'none'; loader.style.display = 'block';
+      qrImage.src = `${selectedPack.price}qr.webp`;
 
-      const qrFilename = `${selectedPack.price}qr.webp`;
-      qrImage.src = qrFilename;
-
-      qrImage.onload = function(){
-          loader.style.display = 'none';
-          qrImage.style.display = 'block';
-          startQRTimer();
-      };
-
-      qrImage.onerror = function(){
-          loader.style.display = 'none';
-          // Fallback if image not found: Just show text
-          console.log(`Image missing: ${qrFilename}`);
-      };
-
+      qrImage.onload = function(){ loader.style.display = 'none'; qrImage.style.display = 'block'; startQRTimer(); };
+      qrImage.onerror = function(){ loader.style.display = 'none'; };
       showStep(3);
     };
 
-    document.getElementById('back3').onclick = () => {
-      if(qrTimer) clearInterval(qrTimer);
-      showStep(2);
-    };
+    document.getElementById('back3').onclick = () => { if(qrTimer) clearInterval(qrTimer); showStep(2); };
 
     document.getElementById('copyUpiBtn').onclick = async function(){
       triggerHaptic('light');
-      try {
-          await navigator.clipboard.writeText(UPIVPA);
-          showToast('UPI ID copied!');
-      } catch (err) { alert("UPI ID: " + UPIVPA); }
+      try { await navigator.clipboard.writeText(UPIVPA); showToast('UPI ID copied!'); } catch (err) { alert("UPI ID: " + UPIVPA); }
     };
 
-    const fileInput = document.getElementById('screenshot');
-    const preview = document.getElementById('screenshotPreview');
     const uploadArea = document.getElementById('uploadArea');
-    const submitBtn = document.getElementById('submitBtn');
-
-    uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-    uploadArea.addEventListener('dragleave', () => { uploadArea.classList.remove('dragover'); });
-    uploadArea.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadArea.classList.remove('dragover');
-      const file = e.dataTransfer.files[0];
-      if(file && file.type.startsWith('image/')) handleFileUpload(file);
-    });
-
+    const fileInput = document.getElementById('screenshot');
     uploadArea.onclick = () => fileInput.click();
-    fileInput.onchange = (e) => { const file = e.target.files[0]; if(file) handleFileUpload(file); };
-
-    function handleFileUpload(file){
-      if(file.size <= 5*1024*1024){
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if(file && file.size <= 5*1024*1024) {
         screenshotFile = file;
         const reader = new FileReader();
         reader.onload = (evt) => {
-          preview.src = evt.target.result;
-          preview.style.display = 'block';
-          const progressBar = document.getElementById('uploadProgress');
-          let width = 0;
-          const interval = setInterval(() => {
-            if(width >= 100){
-              clearInterval(interval);
-              document.getElementById('uploadIcon').style.display = 'none';
-              document.getElementById('uploadSuccessIcon').style.display = 'inline-block';
-              document.getElementById('uploadText').textContent = 'Screenshot Attached';
-              submitBtn.style.display = 'block';
-              triggerHaptic('success');
-            } else { width += 5; progressBar.style.width = width + '%'; }
-          }, 20);
+          document.getElementById('screenshotPreview').src = evt.target.result;
+          document.getElementById('screenshotPreview').style.display = 'block';
+          document.getElementById('uploadIcon').style.display = 'none';
+          document.getElementById('uploadSuccessIcon').style.display = 'inline-block';
+          document.getElementById('uploadText').textContent = 'Screenshot Attached';
+          document.getElementById('submitBtn').style.display = 'block';
+          triggerHaptic('success');
         };
         reader.readAsDataURL(file);
-      } else {
-        alert("File too large. Please upload under 5MB.");
-      }
-    }
+      } else if (file) { alert("File too large. Please upload under 5MB."); }
+    };
 
     function startDeliveryTimer() {
-        const duration = 420; 
         const timerText = document.getElementById('deliveryTimer');
         const fillBar = document.getElementById('gameBarFill');
         const msg = document.getElementById('deliveryMsg');
-
-        let endTime = localStorage.getItem('bgmiTimerEnd');
-        
-        if (!endTime) {
-            endTime = new Date().getTime() + (duration * 1000);
-            localStorage.setItem('bgmiTimerEnd', endTime);
-        }
+        let endTime = new Date().getTime() + (420 * 1000);
 
         const timerInterval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = endTime - now;
-            let secondsLeft = Math.floor(distance / 1000);
-            
-            if (distance < 0) {
+            let secondsLeft = Math.floor((endTime - new Date().getTime()) / 1000);
+            if (secondsLeft < 0) {
                 clearInterval(timerInterval);
-                fillBar.style.width = "100%";
-                msg.textContent = "Completed";
-                
+                fillBar.style.width = "100%"; msg.textContent = "Completed";
                 document.getElementById('gameLoaderWrap').style.display = 'none';
                 document.getElementById('finalSuccessMsg').style.display = 'block';
                 document.getElementById('newOrderBtn').style.display = 'block';
-                
-                localStorage.removeItem('bgmiTimerEnd');
-                createConfetti();
-                triggerHaptic('success');
-                return;
+                createConfetti(); triggerHaptic('success'); return;
             }
-
-            const m = Math.floor(secondsLeft / 60);
-            const s = secondsLeft % 60;
-            timerText.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-            
-            const totalDuration = 420; 
-            const percentage = ((totalDuration - secondsLeft) / totalDuration) * 100;
+            timerText.textContent = `${Math.floor(secondsLeft/60).toString().padStart(2,'0')}:${(secondsLeft%60).toString().padStart(2,'0')}`;
+            const percentage = ((420 - secondsLeft) / 420) * 100;
             fillBar.style.width = percentage + "%";
             
-            // MODIFIED: Updated messages as requested
-            if(percentage < 20) msg.textContent = "Connecting to BGMI Servers...";
-            if(percentage >= 20 && percentage < 40) msg.textContent = "Connecting to BGMI Servers...";
             if(percentage >= 40 && percentage < 60) msg.textContent = "Verifying UID & Player Name...";
             if(percentage >= 60 && percentage < 80) msg.textContent = "Initiating UC Transfer...";
             if(percentage >= 80 && percentage < 99) msg.textContent = "Finalizing Transaction...";
-            
         }, 1000);
     }
 
-    // Handle Form Submission via AJAX to FormSubmit.co
     document.getElementById('orderForm').onsubmit = async (e) => {
       e.preventDefault();
-      if(!screenshotFile) {
-          alert("Please upload a payment screenshot first.");
-          return;
-      }
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
       const time = new Date().toLocaleString('en-IN', { timeZone:'Asia/Kolkata' });
         
-      // Create FormData
       const formData = new FormData();
-      formData.append('packuc', selectedPack.uc);
-      formData.append('packprice', selectedPack.price);
-      formData.append('bgmiuid', currentUid);
-      formData.append('ign', currentIgn);
-      formData.append('orderid', orderId);
-      formData.append('timestamp', time);
-      formData.append('screenshot', screenshotFile);
-      formData.append('_captcha', 'false');
+      formData.append('packuc', selectedPack.uc); formData.append('packprice', selectedPack.price);
+      formData.append('bgmiuid', currentUid); formData.append('ign', currentIgn);
+      formData.append('orderid', orderId); formData.append('screenshot', screenshotFile);
 
       try {
-        const res = await fetch(FORM_ENDPOINT, { 
-            method: 'POST', 
-            body: formData,
-            headers: { 'Accept': 'application/json' } // Request JSON response
-        });
-        
+        const res = await fetch(FORM_ENDPOINT, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
         if(res.ok) {
-          // Send to Google Sheets (Backup)
-          if(APPS_SCRIPT_URL) {
-             try {
-                const sheetData = { uid: currentUid, uc: selectedPack.uc };
-                await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', 
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(sheetData)
-                });
-             } catch(sheetErr) { console.log(sheetErr); }
-          }
-
           document.getElementById('orderIdText').textContent = orderId;
           document.getElementById('receipt-pack').textContent = selectedPack.uc + " UC";
           document.getElementById('receipt-amount').textContent = "₹" + selectedPack.price;
           document.getElementById('receipt-uid').textContent = currentUid;
           document.getElementById('receipt-ign').textContent = currentIgn;
           document.getElementById('receipt-time').textContent = time;
-          if(qrTimer) clearInterval(qrTimer);
+          if(qrTimer) clearInterval(qrTimer); showStep(4); triggerHaptic('success');
             
-          showStep(4);
-          triggerHaptic('success');
-            
-          localStorage.removeItem('bgmiTimerEnd');
-
           const currentHour = getIndiaHour();
-          const isNightTime = (currentHour >= 0 && currentHour < 9);
-
-          if (isNightTime) {
+          if (currentHour >= 0 && currentHour < 9) {
               document.getElementById('gameLoaderWrap').style.display = 'none';
               document.getElementById('nightMessage').style.display = 'block';
               document.getElementById('newOrderBtn').style.display = 'block';
-          } else {
-              document.getElementById('gameLoaderWrap').style.display = 'block';
-              document.getElementById('nightMessage').style.display = 'none';
-              startDeliveryTimer();
-          }
-            
-        } else {
-            throw new Error("Form submission failed");
-        }
+          } else { startDeliveryTimer(); }
+        } else { throw new Error("Failed"); }
       } catch(err) {
-        alert("Submission failed. Please try again.");
-        console.error(err);
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Confirm Order";
+        alert("Submission failed. Try again.");
+        submitBtn.disabled = false; submitBtn.textContent = "Confirm Order";
       }
     };
-    setTimeout(showSocialProof, 3000);
   </script>
 </body>
 </html>
